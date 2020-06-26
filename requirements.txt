@@ -1,0 +1,2 @@
+great_expectations==0.11.5
+pandas==1.0.5
