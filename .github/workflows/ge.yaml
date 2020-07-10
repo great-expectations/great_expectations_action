@@ -21,17 +21,17 @@ jobs:
       
 
     test-hosted-action:
-        runs-on: ubuntu-latest
-        steps:
+      runs-on: ubuntu-latest
+      steps:
 
-        - name: Copy Repository Contents
-          uses: actions/checkout@master
+      - name: Copy Repository Contents
+        uses: actions/checkout@master
 
-        - name: execute local action
-          continue-on-error: true
-          uses: superconductive/great_expectations_action@master
-          with:
-            CHECKPOINTS: "passing_checkpoint,failing_checkpoint"
+      - name: execute local action
+        continue-on-error: true
+        uses: superconductive/great_expectations_action@master
+        with:
+        CHECKPOINTS: "passing_checkpoint,failing_checkpoint"
           
 
 
