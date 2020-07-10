@@ -25,6 +25,8 @@ TODO
 
 # Development
 
+This section is for those who wish to develop this GitHub Action.  Users of this Action can ignore this section.
+
 ## Installation
 
 1. `pip install -r requriements.txt`
