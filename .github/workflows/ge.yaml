@@ -33,12 +33,3 @@ jobs:
       with:
         CHECKPOINTS: "passing_checkpoint,failing_checkpoint"
           
-  demo-pr:
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Copy Repository Contents
-        uses: actions/checkout@master
-        with:
-            persist-credentials: false
-
