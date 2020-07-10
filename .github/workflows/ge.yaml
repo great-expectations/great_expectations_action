@@ -7,6 +7,7 @@ on:
 
 jobs:     
   test-local-action:
+    runs-on: ubuntu-latest
     steps:
 
     - name: Copy Repository Contents
