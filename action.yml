@@ -1,4 +1,4 @@
-name: 'Great Expectations'
+name: 'Great-Expectations'
 description: 'Use Great Expectations https://docs.greatexpectations.io/en/latest/ to validate data.'
 inputs:
   CHECKPOINTS:

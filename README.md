@@ -1,4 +1,7 @@
- <h1><img src="https://github.com/superconductive/great_expectations_action/blob/master/logo.png" width="100" height="100">Great Expectations GitHub Action</h1>
+ <h1>
+ 
+ 
+ <img src="https://github.com/superconductive/great_expectations_action/blob/master/ge-logo.png" width="100" height="100">Great Expectations GitHub Action</h1>
 
 
 
