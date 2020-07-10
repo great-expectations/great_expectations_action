@@ -15,3 +15,5 @@ jobs:
 
     - name: execute local action
       uses: ./
+      with:
+        CHECKPOINTS: "passing_checkpoint,failing_checkpoint"
