@@ -1,4 +1,4 @@
-name: GE-Chatops
+name: GE-PR-Demo
 on: [issue_comment]
 
 jobs:
