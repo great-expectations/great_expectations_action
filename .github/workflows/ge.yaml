@@ -14,10 +14,16 @@ jobs:
       uses: actions/checkout@master
 
     - name: execute local action
+      id: ge
       continue-on-error: true
       uses: ./
       with:
         CHECKPOINTS: "passing_checkpoint,failing_checkpoint"
+      
+    - name: print location
+      run: echo $LOC
+      with:
+        LOC: ${{ steps.ge.outputs.local_docs_location }}
       
 
   test-hosted-action:
@@ -33,3 +39,7 @@ jobs:
       with:
         CHECKPOINTS: "passing_checkpoint,failing_checkpoint"
           
+    - name: print location
+      run: echo $LOC
+      with:
+        LOC: ${{ steps.ge.outputs.local_docs_location }}
