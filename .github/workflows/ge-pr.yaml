@@ -1,18 +1,63 @@
-name: GE-Demo
-on: pull_request
+name: GE-Chatops
+on: [issue_comment]
 
 jobs:
   demo-pr:
-  if: github.event_name == 'pull_request'
-  runs-on: ubuntu-latest
-  steps:
+    if: contains(github.event.comment.body, '/ok-to-test')
+    env:
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
-  - name: Copy Repository Contents
-    uses: actions/checkout@master
-    with:
-        ref: ${{ github.event.pull_request.head.sha }}
+    runs-on: ubuntu-latest
+    steps:
 
-  - name: execute local action
-    uses: superconductive/great_expectations_action@master
-    with:
+    - name: Fetch context about the PR that has been commented on
+      id: chatops
+      uses: machine-learning-apps/actions-chatops@master
+      with:
+        TRIGGER_PHRASE: "/ok-to-test"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Copy The PR's Branch Repository Contents
+      uses: actions/checkout@master
+      if: steps.get_status.outputs.status == 'private'
+      with:
+        ref: ${{ steps.chatops.outputs.SHA }}
+
+    - name: run great expectation checkpoints
+      uses: superconductive/great_expectations_action@master
+      with:
         CHECKPOINTS: "passing_checkpoint,failing_checkpoint"
+
+    - name: deploy data docs to Netlify
+      id: netlify
+      run: | 
+        sudo npm install netlify-cli -g
+        netlify deploy --dir $DOCS_LOC | tee _netlify_logs.txt
+        
+        # Parse URL from logs and send to next step
+        DOCS_URL=`cat _netlify_logs.txt | awk '/Draft URL: /{print $4}'`
+        ## find out if it is empty or not
+        [[  -z "$DOCS_URL" ]] && { echo "Variable DOCS_URL is empty" ; exit 1; }
+        echo "::set-output name=docs_url::${DOCS_URL}"
+      env:
+        DOCS_LOC: ${{ steps.ge.outputs.local_docs_location }}
+
+    - name: Comment on PR
+      uses: actions/github-script@v2
+      github-token: ${{secrets.GITHUB_TOKEN}}
+      script: |
+        var URL = process.env.DOCS_LOC;
+        var SHA = process.env.SHA;
+
+        github.issues.createComment({
+          issue_number: context.issue.number,
+          owner: context.repo.owner,
+          repo: context.repo.repo,
+          body: `Great Expectations Data Docs have been generated for SHA: ${SHA} and can be viewed **live** at: ${URL}`
+        })
+      env:
+        DOCS_LOC: ${{ steps.netlify.outputs.docs_url }}
+        SHA: ${{ steps.chatops.outputs.SHA }}  
+  
