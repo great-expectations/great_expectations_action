@@ -22,7 +22,7 @@ jobs:
       
     - name: print location
       run: echo $LOC
-      with:
+      env:
         LOC: ${{ steps.ge.outputs.local_docs_location }}
       
 
@@ -41,5 +41,5 @@ jobs:
           
     - name: print location
       run: echo $LOC
-      with:
+      env:
         LOC: ${{ steps.ge.outputs.local_docs_location }}
