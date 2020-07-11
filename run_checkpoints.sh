@@ -11,11 +11,13 @@ function check_env() {
 
 check_env "INPUT_CHECKPOINTS"
 
+# Emit docs locations to stdout
+python find_doc_location.py
+
 # Loop through checkpoints
 IFS=','
 for c in $INPUT_CHECKPOINTS;do
     great_expectations checkpoint run $c
 done
 
-# Emit docs locations to stdout
-python find_doc_location.py
+
