@@ -23,7 +23,6 @@ TODO
 - `CHECKPOINTS`:
     A comma separated list of checkpoint names to execute.  Example -  "checkpoint1,checkpoint2"
 
-
 # Development
 
 This section is for those who wish to develop this GitHub Action.  Users of this Action can ignore this section.
