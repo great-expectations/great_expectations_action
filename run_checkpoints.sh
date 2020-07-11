@@ -16,3 +16,6 @@ IFS=','
 for c in $INPUT_CHECKPOINTS;do
     great_expectations checkpoint run $c
 done
+
+# Emit docs locations to stdout
+python find_doc_location.py
