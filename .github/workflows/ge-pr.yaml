@@ -25,6 +25,7 @@ jobs:
         ref: ${{ steps.chatops.outputs.SHA }}
 
     - name: run great expectation checkpoints
+      id: ge
       continue-on-error: true
       uses: superconductive/great_expectations_action@master
       with:
