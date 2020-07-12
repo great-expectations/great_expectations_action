@@ -21,7 +21,6 @@ jobs:
 
     - name: Copy The PR's Branch Repository Contents
       uses: actions/checkout@master
-      if: steps.get_status.outputs.status == 'private'
       with:
         ref: ${{ steps.chatops.outputs.SHA }}
 
