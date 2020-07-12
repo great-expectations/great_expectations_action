@@ -8,14 +8,16 @@ When DataContext.build_data_docs() is called, there are side effects that may
 include external cloud storage. Here we are running in a GitHub Action, so we
 create a temporary site store for use only within this action. When docs are
 built we only build this temporary site.
-
+"""
 # TODO it is not yet clear if this will surprise users. If users want their
 # TODO  cloud sites updated we could parameterize this behavior in the future.
-"""
+
+
 import os
 import uuid
 
 import great_expectations as ge
+from great_expectations.data_context.store import TupleFilesystemStoreBackend
 
 
 def build_site_name() -> str:
@@ -48,8 +50,14 @@ def main():
 
     print(f"Building docs for site: {action_site_name}")
 
+    validation_store = context.stores["validations_store"]
+    if not isinstance(validation_store.store_backend, TupleFilesystemStoreBackend):
+        # TODO the action will likely need to run entirely in python so an ephemeral
+        #  validation store can be used if desired.
+        print("WARNING an external validation store exists and was likely polluted.")
+
     # Build only the GitHub Actions temporary site
-    context.build_data_docs(site_names=[action_site_name])
+    # context.build_data_docs(site_names=[action_site_name])
     print(f"Site built in directory: {gh_site_dir}")
     # For local debugging, this is handy to verify docs built
     context.open_data_docs(site_name=action_site_name)
