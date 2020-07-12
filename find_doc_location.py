@@ -7,8 +7,8 @@ import yaml
 with open("great_expectations/great_expectations.yml", 'r') as stream:
     config = yaml.safe_load(stream)
     try:
-        location = config['data_docs_sites']['local_site']['store_backend']['base_directory']
+        location = f"great_expectations/{config['data_docs_sites']['local_site']['store_backend']['base_directory']}"
     except:
         location = "great_expectations/uncommitted/data_docs/local_site/"
 
-print(f'::set-output name=local_docs_location::great_expectations/{location}')
+print(f'::set-output name=local_docs_location::{location}')
