@@ -9,6 +9,6 @@ with open("great_expectations/great_expectations.yml", 'r') as stream:
     try:
         location = config['data_docs_sites']['local_site']['store_backend']['base_directory']
     except:
-        location = "uncommitted/data_docs/local_site/"
+        location = "great_expectations/uncommitted/data_docs/local_site/"
 
-print(f'::set-output name=local_docs_location::{location}')
+print(f'::set-output name=local_docs_location::great_expectations/{location}')
