@@ -4,7 +4,7 @@ on: [issue_comment]
 
 jobs:
   demo-pr:
-    if: contains(github.event.comment.body, '/data-docs')
+    if: (github.event.issue.pull_request != null) && contains(github.event.comment.body, '/data-docs')
     env:
       NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
       NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
@@ -36,7 +36,7 @@ jobs:
       run: echo $LOC
       env:
         LOC: ${{ steps.ge.outputs.local_docs_location }}
-        
+
     - name: deploy data docs to Netlify
       id: netlify
       run: | 
