@@ -1,4 +1,4 @@
-# This is how typical users of Great Expectations can use it for CI in their workflows
+# How typical users can Great Expectations in their CI workflows
 name: GE Checkpoints
 on: push
 

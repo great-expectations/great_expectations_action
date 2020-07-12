@@ -1,3 +1,5 @@
+# A test to see if the GitHub Action is working
+# Used for maintainers of this Action.
 name: GE-Action-Build
 on:
   push:
