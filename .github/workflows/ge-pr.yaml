@@ -1,3 +1,4 @@
+# Allows repo owners to view data docs hosted on netlify for the PR with the command "/data-docs" as a comment in a PR.
 name: GE-PR-Demo
 on: [issue_comment]
 
@@ -31,6 +32,11 @@ jobs:
       with:
         CHECKPOINTS: "passing_checkpoint,failing_checkpoint"
 
+    - name: print location
+      run: echo $LOC
+      env:
+        LOC: ${{ steps.ge.outputs.local_docs_location }}
+        
     - name: deploy data docs to Netlify
       id: netlify
       run: | 
