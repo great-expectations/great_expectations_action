@@ -2,7 +2,8 @@
 name: GE Checkpoints
 on: push
 
-test-hosted-action:
+jobs:
+  test-hosted-action:
     runs-on: ubuntu-latest
     steps:
 
