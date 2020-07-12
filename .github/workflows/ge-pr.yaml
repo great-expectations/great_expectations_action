@@ -3,7 +3,7 @@ on: [issue_comment]
 
 jobs:
   demo-pr:
-    if: contains(github.event.comment.body, '/ok-to-test')
+    if: contains(github.event.comment.body, '/view-docs')
     env:
       NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
       NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
@@ -15,7 +15,7 @@ jobs:
       id: chatops
       uses: machine-learning-apps/actions-chatops@master
       with:
-        TRIGGER_PHRASE: "/ok-to-test"
+        TRIGGER_PHRASE: "/view-docs"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
