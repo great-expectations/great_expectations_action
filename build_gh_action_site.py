@@ -57,7 +57,7 @@ def main():
         print("WARNING an external validation store exists and was likely polluted.")
 
     # Build only the GitHub Actions temporary site
-    # context.build_data_docs(site_names=[action_site_name])
+    context.build_data_docs(site_names=[action_site_name])
     print(f"Site built in directory: {gh_site_dir}")
     # For local debugging, this is handy to verify docs built
     context.open_data_docs(site_name=action_site_name)
