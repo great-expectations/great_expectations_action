@@ -14,3 +14,5 @@ jobs:
       uses: superconductive/great_expectations_action@master
       with:
         CHECKPOINTS: "passing_checkpoint,failing_checkpoint"
+
+  
