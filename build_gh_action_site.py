@@ -60,7 +60,8 @@ def main():
     context.build_data_docs(site_names=[action_site_name])
     print(f"Site built in directory: {gh_site_dir}")
     # For local debugging, this is handy to verify docs built
-    context.open_data_docs(site_name=action_site_name)
+    if os.getenv('DEBUG_OPEN_DOCS'):
+        context.open_data_docs(site_name=action_site_name)
 
 
 if __name__ == "__main__":
