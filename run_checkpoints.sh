@@ -20,4 +20,7 @@ for c in $INPUT_CHECKPOINTS;do
     great_expectations checkpoint run $c
 done
 
+# Build the ephemeral docs site
+./build_gh_action_site.py
 
+# TODO put the built site somewhere interesting

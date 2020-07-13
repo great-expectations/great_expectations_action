@@ -38,3 +38,7 @@ Run these commands from the repo root.
 
 To see a checkpoint pass run `great_expectations checkpoint run passing_checkpoint`
 To see a checkpoint fail run `great_expectations checkpoint run failing_checkpoint`
+
+## MVP Action Limitations
+
+- If a **cloud-based** `ValidationStore` is in use we may need to disable it so that the built docs focus only on what is being validated in the Action without other side effects.

@@ -131,3 +131,6 @@ dmypy.json
 # IDEs
 .idea
 .vscode
+
+# OS junk
+*.DS_Store
