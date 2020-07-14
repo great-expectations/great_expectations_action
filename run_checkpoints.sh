@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 # Validate That Required Inputs Were Supplied
 function check_env() {
     if [ -z $(eval echo "\$$1") ]; then
@@ -12,15 +11,23 @@ function check_env() {
 check_env "INPUT_CHECKPOINTS"
 
 # Emit docs locations to stdout
-python find_doc_location.py
+python /find_doc_location.py
 
 # Loop through checkpoints
+STATUS=0
 IFS=','
 for c in $INPUT_CHECKPOINTS;do
-    great_expectations checkpoint run $c
+    echo ""
+    echo "Validating Checkpoint: ${c}"
+    if ! great_expectations checkpoint run $c; then
+        STATUS=1
+    fi
 done
 
 # Build the ephemeral docs site
-./build_gh_action_site.py
+python /build_gh_action_site.py
 
 # TODO put the built site somewhere interesting
+
+# exit with appropriate status
+exit $STATUS

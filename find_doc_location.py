@@ -3,8 +3,10 @@ Find local site location and emit that as a variable for Actions on stdout
 """
 import yaml
 
+path = "great_expectations/great_expectations.yml"
+
 # Read YAML file
-with open("great_expectations/great_expectations.yml", 'r') as stream:
+with open(path, 'r') as stream:
     config = yaml.safe_load(stream)
     try:
         location = f"great_expectations/{config['data_docs_sites']['local_site']['store_backend']['base_directory']}"
