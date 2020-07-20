@@ -7,5 +7,3 @@ INPUT_CHECKPOINTS="passing_checkpoint,failing_checkpoint"
 
 docker run -e INPUT_CHECKPOINTS=$INPUT_CHECKPOINTS \
 -v $PWD:/app test-ge-action
-
-

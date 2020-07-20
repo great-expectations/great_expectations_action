@@ -4,6 +4,13 @@ inputs:
   CHECKPOINTS:
     description: A comma separated list of checkpoint names to execute.  Example -  "checkpoint1,checkpoint2"
     require: true
+outputs:
+  ACTION_DOCS_LOCATION:
+    description: The path relative to the current working directory where generated data docs are located.  This is useful if you want to deploy the data docs to an external service.
+  FAILED_CHECKPOINTS:
+    description: A comma delimited list of failed checkpoints.
+  PASSING_CHECKPOINTS:
+    description: A comma delimited list of passing checkpoints.
 branding:
   color: 'gray-dark'
   icon: 'check-circle'

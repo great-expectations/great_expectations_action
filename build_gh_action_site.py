@@ -59,7 +59,7 @@ def main():
     # Build only the GitHub Actions temporary site
     context.build_data_docs(site_names=[action_site_name])
     print(f"Site built in directory: {gh_site_dir}")
-    print(f'::set-output name=action_docs_location::{gh_site_dir}')
+    print(f'::set-output name=ACTION_DOCS_LOCATION::{gh_site_dir}')
     # For local debugging, this is handy to verify docs built
     if os.getenv('DEBUG_OPEN_DOCS'):
         context.open_data_docs(site_name=action_site_name)
