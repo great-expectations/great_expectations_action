@@ -41,10 +41,6 @@ jobs:
       with:
         CHECKPOINTS: "passing_checkpoint,failing_checkpoint"
 
-    - name: print location
-      run: echo $LOC
-      env:
-        LOC: ${{ steps.ge.outputs.local_docs_location }}
 
     - name: deploy data docs to Netlify
       id: netlify
