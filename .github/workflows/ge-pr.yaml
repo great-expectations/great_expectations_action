@@ -29,14 +29,6 @@ jobs:
             console.log(`::set-output name=SHA::${SHA}`)
           })
 
-    # - name: Fetch context about the PR that has been commented on
-    #   id: chatops
-    #   uses: machine-learning-apps/actions-chatops@master
-    #   with:
-    #     TRIGGER_PHRASE: "/data-docs"
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
     - name: Copy The PR's Branch Repository Contents
       uses: actions/checkout@master
       with:
