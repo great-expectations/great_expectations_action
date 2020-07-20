@@ -8,7 +8,10 @@ This Action allows you to validate your data with [Great Expectations](https://g
 
 > Great Expectations is a leading tool for validating, documenting, and profiling your data to maintain quality and improve communication between teams.
 
-TODO - Features
+This Action provides the following features:
+
+- Run Great Expectations checkpoints as part of your continous integration process, along side your unit tets, etc.
+- Generate data docs and user interfaces that allow you to troubleshoot failed checkpoints or investigate data.
 
 # Usage
 
