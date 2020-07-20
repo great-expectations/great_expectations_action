@@ -80,7 +80,7 @@ jobs:
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: `Great Expectations Data Docs have been generated for SHA: ${SHA} and can be viewed **live** at: ${URL}`
+            body: `Great Expectations Data Docs have been generated for branch: ${SHA} and can be viewed **live** [here](${URL})`
             })
       env:
         DOCS_LOC: ${{ steps.netlify.outputs.docs_url }}
