@@ -19,7 +19,7 @@ jobs:
         github-token: ${{secrets.GITHUB_TOKEN}}
         script: |
           // Get the branch name
-          octokit.pulls.get({
+          github.pulls.get({
             owner: context.repo.owner,
             repo: context.repo.repo,
             pull_number: context.payload.issue.number
