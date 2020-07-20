@@ -4,6 +4,7 @@
 
 # Background
 
+
 This Action allows you to validate your data with [Great Expectations](https://greatexpectations.io/).  From [the docs](https://docs.greatexpectations.io/en/latest/):
 
 > Great Expectations is a leading tool for validating, documenting, and profiling your data to maintain quality and improve communication between teams.
