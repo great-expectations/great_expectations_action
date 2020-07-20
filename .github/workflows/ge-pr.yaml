@@ -68,9 +68,8 @@ jobs:
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: `Great Expectations Data Docs have been generated for SHA: ${SHA} and can be viewed **live** [here](${URL}).`
+            body: `Great Expectations Data Docs have been generated for SHA: ${SHA} and can be viewed [here](${URL}).`
             })
       env:
         DOCS_LOC: ${{ steps.netlify.outputs.docs_url }}
         SHA: ${{ steps.chatops.outputs.SHA }}  
-  
