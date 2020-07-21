@@ -78,6 +78,7 @@ if [[ ! -z "$INPUT_PR_COMMENT_ON_ERROR" ]] && [[ "$GITHUB_EVENT_NAME" == "push" 
         elif [[ -z "$INPUT_GITHUB_TOKEN" ]]; then
             echo "::warning::You must supply the input GITHUB_TOKEN to trigger a pull request comment."
         else
+            #TODO
             echo "TODO: comment on the issue!"
     fi
 fi
