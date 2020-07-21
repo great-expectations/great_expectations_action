@@ -1,6 +1,10 @@
- ![](https://github.com/superconductive/great_expectations_action/workflows/GE-Action-Build/badge.svg)
+ ![](https://github.com/superconductive/great_expectations_action/workflows/GE-Action-Build/badge.svg) [![Netlify Status](https://api.netlify.com/api/v1/badges/658dedee-2ee7-44b2-b926-d6146a173e11/deploy-status)](https://app.netlify.com/sites/great-expectations/deploys)
  
  <h1><img src="https://github.com/superconductive/great_expectations_action/blob/master/ge-logo.png" width="100" height="100">Great Expectations GitHub Action</h1>
+
+# Table of Contents
+
+TODO: Add TOC
 
 # Background
 
@@ -12,14 +16,29 @@ This Action provides the following features:
 
 - Run Great Expectations checkpoints as part of your continous integration process, along side your unit tets, etc.
 - Generate data docs and user interfaces that allow you to troubleshoot failed checkpoints or investigate data.
+- Optionally comment on a pull request with a link to your deployed data docs on [Netlify](https://www.netlify.com/).
+- Deploy data docs from checkpoints to GitHub pages.
+
+# Demo
+
+TODO: insert GIF here
 
 # Usage
 
-## Example
+## Example 1 TODO
 
 ```yaml
 TODO
 ```
+
+## Example 2 TODO
+
+```yaml
+TODO
+```
+
+# API Reference
+
 ## Inputs
 
 ### Mandatory Inputs
@@ -31,7 +50,7 @@ TODO
 
 - `NETLIFY_AUTH_TOKEN`:
     A personal access token for [Netlify](https://www.netlify.com/).
-    
+
 - `NETLIFY_SITE_ID`:
     A [Netlify](https://www.netlify.com/) site id.
 
