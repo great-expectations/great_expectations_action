@@ -40,7 +40,6 @@ def main():
     print("Loading project")
     context = ge.DataContext("great_expectations")
     action_site_name = build_site_name()
-    gh_site_dir = os.path.abspath(os.path.join(os.path.curdir, action_site_name))
     context_config = context.get_config()
     context_config["data_docs_sites"][action_site_name] = build_site_config(
         action_site_name
@@ -58,12 +57,14 @@ def main():
 
     # Build only the GitHub Actions temporary site
     context.build_data_docs(site_names=[action_site_name])
+    gh_site_dir = f"{context.root_directory}/{action_site_name}"
     print(f"Site built in directory: {gh_site_dir}")
-    print(f'::set-output name=action_docs_location::{gh_site_dir}')
+    print(f'::set-output name=ACTION_DOCS_LOCATION::{gh_site_dir}')
+    with open('_temp_greatexpectations_action_docs_location_dir.txt', 'w') as f:
+        f.write(f"{gh_site_dir}")
     # For local debugging, this is handy to verify docs built
     if os.getenv('DEBUG_OPEN_DOCS'):
         context.open_data_docs(site_name=action_site_name)
-
 
 if __name__ == "__main__":
     main()

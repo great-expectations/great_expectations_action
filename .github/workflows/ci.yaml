@@ -22,6 +22,7 @@ jobs:
 
     - name: Comment with docs upon failure
       if: ${{ failure() }}
+      run: echo "previous step failed."
     
     - name: deploy data docs to Netlify
       id: netlify
