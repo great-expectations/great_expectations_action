@@ -50,7 +50,7 @@ echo "::set-output name=PASSING_CHECKPOINTS::${PASSING_CHECKPOINTS}"
 if [[ ! -z "$NETLIFY_AUTH_TOKEN" ]] && [[ ! -z "$NETLIFY_SITE_ID" ]]; 
 then
     [[  -z "$DOCS_LOC" ]] && { echo "Variable DOCS_LOC is empty" ; exit 1; }
-    [[  -d "$DOCS_LOC" ]] && { echo "Directory specified in variable DOCS_LOC: ${DOCS_LOC} does not exist" ; exit 1; }
+    [[ ! -d "$DOCS_LOC" ]] && { echo "Directory specified in variable DOCS_LOC: ${DOCS_LOC} does not exist."; exit 1; }
     netlify deploy --dir $DOCS_LOC | tee _netlify_logs.txt
     # Parse URL from logs and send to next step
     DOCS_URL=`cat _netlify_logs.txt | awk '/Draft URL: /{print $4}'`
