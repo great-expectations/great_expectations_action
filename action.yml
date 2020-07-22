@@ -10,8 +10,6 @@ inputs:
   NETLIFY_SITE_ID:
     description: A Netlify site id.
     require: false
-  GITHUB_TOKEN:
-    description: "Your GITHUB_TOKEN https://docs.github.com/en/actions/configuring-and-managing-workflows/authenticating-with-the-github_token#using-the-github_token-in-a-workflow from your Actions Environment."
   DEBUG:
     description: Setting this input to any value will allow the Action to exit with a status code of 0 even if a checkpoint fails.  This is used by maintainers of this Action for testing and debugging.
     require: false

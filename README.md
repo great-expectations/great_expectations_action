@@ -54,6 +54,9 @@ TODO
 - `NETLIFY_SITE_ID`:
     A [Netlify](https://www.netlify.com/) site id.
 
+- `DEBUG`
+    Setting this input to any value will allow the Action to exit with a status code of 0 even if a checkpoint fails.  This is used by maintainers of this Action for testing and debugging.
+
 ## Outputs
 
 - `ACTION_DOCS_LOCATION`:
