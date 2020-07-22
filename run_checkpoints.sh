@@ -12,9 +12,6 @@ function check_env() {
 
 check_env "INPUT_CHECKPOINTS"
 
-# Emit docs locations to stdout
-python /find_doc_location.py
-
 # Loop through checkpoints
 STATUS=0
 IFS=','
@@ -77,7 +74,7 @@ fi
 
 echo "::set-output name=CHECKPOINT_FAILURE_FLAG::${STATUS}"
 
-# # exit with appropriate status
-if [[ ! -z "$INPUT_DEBUG" ]]; then
-    exit $STATUS
+# # exit with appropriate status if DEBUG flag is not set.
+if [[ -z "$INPUT_DEBUG" ]]; then
+    exit $STATUS;
 fi

@@ -1,10 +1,7 @@
 # A test to see if the GitHub Action is working
 # Used for maintainers of this Action.
-name: GE-Action-Build
-on:
-  push:
-    branches:
-      - master
+name: Action Build
+on: pull_request
 
 jobs:     
   test-local-action:
@@ -19,13 +16,24 @@ jobs:
       continue-on-error: true
       uses: ./
       with:
-        CHECKPOINTS: "passing_checkpoint,failing_checkpoint"
+        CHECKPOINTS: "passing_checkpoint,failing_checkpoint,passing_checkpoint"
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        DEBUG: true
       
-    - name: print location
-      run: echo $LOC
+    - name: print outputs
+      run: |
+        echo "action_docs_location: $LOC"
+        echo "failing_checkpoints: $FC"
+        echo "passing_checkpoints: $PC"
+        echo "netlify_docs_url: $NU"
+        echo "checkpoint_failure_flag: $CF"
       env:
-        LOC: ${{ steps.ge.outputs.local_docs_location }}
-      
+        LOC: ${{ steps.ge.outputs.action_docs_location }}
+        FC: ${{ steps.ge.outputs.failing_checkpoints }}
+        PC: ${{ steps.ge.outputs.passing_checkpoints }}
+        NU: ${{ steps.ge.outputs.netlify_docs_url }}
+        CF: ${{ steps.ge.outputs.checkpoint_failure_flag }}         
 
   test-hosted-action:
     runs-on: ubuntu-latest
@@ -38,9 +46,21 @@ jobs:
       continue-on-error: true
       uses: superconductive/great_expectations_action@master
       with:
-        CHECKPOINTS: "passing_checkpoint,failing_checkpoint"
+        CHECKPOINTS: "passing_checkpoint,failing_checkpoint,passing_checkpoint"
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        DEBUG: true
           
-    - name: print location
-      run: echo $LOC
+    - name: print outputs
+      run: |
+        echo "action_docs_location: $LOC"
+        echo "failing_checkpoints: $FC"
+        echo "passing_checkpoints: $PC"
+        echo "netlify_docs_url: $NU"
+        echo "checkpoint_failure_flag: $CF"
       env:
-        LOC: ${{ steps.ge.outputs.local_docs_location }}
+        LOC: ${{ steps.ge.outputs.action_docs_location }}
+        FC: ${{ steps.ge.outputs.failing_checkpoints }}
+        PC: ${{ steps.ge.outputs.passing_checkpoints }}
+        NU: ${{ steps.ge.outputs.netlify_docs_url }}
+        CF: ${{ steps.ge.outputs.checkpoint_failure_flag }}    
