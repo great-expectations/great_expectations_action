@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # Validate That Required Inputs Were Supplied
 function check_env() {
     if [ -z $(eval echo "\$$1") ]; then
@@ -9,9 +11,6 @@ function check_env() {
 }
 
 check_env "INPUT_CHECKPOINTS"
-
-# Emit docs locations to stdout
-python /find_doc_location.py
 
 # Loop through checkpoints
 STATUS=0
@@ -26,16 +25,16 @@ for c in $INPUT_CHECKPOINTS;do
             STATUS=1
             if [[ -z "$FAILING_CHECKPOINTS" ]];
                 then
-                    FAILING_CHECKPOINTS="${c}"
+                    export FAILING_CHECKPOINTS="${c}"
                 else
-                    FAILING_CHECKPOINTS="${FAILING_CHECKPOINTS},${c}"
+                    export FAILING_CHECKPOINTS="${FAILING_CHECKPOINTS},${c}"
             fi
         else
             if [[ -z "$PASSING_CHECKPOINTS" ]];
                 then
-                    PASSING_CHECKPOINTS="${c}"
+                    export PASSING_CHECKPOINTS="${c}"
                 else
-                    PASSING_CHECKPOINTS="${PASSING_CHECKPOINTS},${c}"
+                    export PASSING_CHECKPOINTS="${PASSING_CHECKPOINTS},${c}"
             fi
     fi
 done
@@ -45,6 +44,7 @@ python /build_gh_action_site.py
 DOCS_LOC=`cat _temp_greatexpectations_action_docs_location_dir.txt`
 
 # Emit Failing and Passing Checkpoints as output variables
+export FAILING_CHECKPOINTS="${FAILING_CHECKPOINTS}"
 echo "::set-output name=FAILING_CHECKPOINTS::${FAILING_CHECKPOINTS}"
 echo "::set-output name=PASSING_CHECKPOINTS::${PASSING_CHECKPOINTS}"
 
@@ -63,7 +63,7 @@ if [[ ! -z "$INPUT_NETLIFY_AUTH_TOKEN" ]] && [[ ! -z "$INPUT_NETLIFY_SITE_ID" ]]
         netlify deploy --dir $DOCS_LOC | tee _netlify_logs.txt
 
         # Parse URL from logs and send to next step
-        DOCS_URL=`cat _netlify_logs.txt | awk '/Draft URL: /{print $4}'`
+        export DOCS_URL=`cat _netlify_logs.txt | awk '/Draft URL: /{print $4}'`
 
         ## Verify URL exists and emit it as an output variable
         [[  -z "$DOCS_URL" ]] && { echo "Variable DOCS_URL is empty" ; exit 1; }
@@ -72,16 +72,9 @@ if [[ ! -z "$INPUT_NETLIFY_AUTH_TOKEN" ]] && [[ ! -z "$INPUT_NETLIFY_SITE_ID" ]]
         echo "Netlify Deploy Skipped."
 fi
 
-if [[ ! -z "$INPUT_PR_COMMENT_ON_ERROR" ]] && [[ "$GITHUB_EVENT_NAME" == "push" ]]; then
-    if [[ ! -z "$GITHUB_HEAD_REF" ]]; then
-            echo "::warning::pull request comments are not supported on a push made from a forked repository for security reasons."
-        elif [[ -z "$INPUT_GITHUB_TOKEN" ]]; then
-            echo "::warning::You must supply the input GITHUB_TOKEN to trigger a pull request comment."
-        else
-            #TODO
-            echo "TODO: comment on the issue!"
-    fi
-fi
+echo "::set-output name=CHECKPOINT_FAILURE_FLAG::${STATUS}"
 
-# exit with appropriate status
-exit $STATUS
+# # exit with appropriate status if DEBUG flag is not set.
+if [[ -z "$INPUT_DEBUG" ]]; then
+    exit $STATUS;
+fi
