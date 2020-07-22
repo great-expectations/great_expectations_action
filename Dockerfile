@@ -1,11 +1,10 @@
 FROM sctay/great_expectations_proof_of_concept
 
 RUN pip install pyyaml
-RUN apt-get install curl -y
-RUN apt-get install -y nodejs
+RUN apt-get install curl git-all nodejs -y
 RUN curl -L https://npmjs.org/install.sh | bash
-RUN npm install -g netlify-cli 
-RUN npm install -g @octokit/rest
+RUN npm install -g netlify-cli @octokit/rest
+# RUN npm install -g @octokit/rest
 ENV NODE_PATH="/usr/lib/node_modules"
 
 COPY run_checkpoints.sh /run_checkpoints.sh

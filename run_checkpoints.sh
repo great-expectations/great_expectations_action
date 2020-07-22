@@ -75,41 +75,9 @@ if [[ ! -z "$INPUT_NETLIFY_AUTH_TOKEN" ]] && [[ ! -z "$INPUT_NETLIFY_SITE_ID" ]]
         echo "Netlify Deploy Skipped."
 fi
 
-if [[ ! -z "$INPUT_AUTO_NETLIFY_DOCS" ]] || [[ ! -z "$INPUT_MANUAL_NETLIFY_DOCS_TRIGGER_PHRASE" ]]; then
-    # Throw an error if user specifies the AUTO_NETLIFY_DOCS flag, but doesnt supply a GITHUB_TOKEN, NETLIFY_AUTH_TOKEN, or NETLIFY_SITE_ID
-    elif [[ -z "$INPUT_GITHUB_TOKEN" ]]; then
-        echo "::error::You must supply the input GITHUB_TOKEN to trigger a pull request comment."
-        exit 1;
-
-    elif [[ -z "$INPUT_NETLIFY_AUTH_TOKEN" ]]; then
-        echo "::error::You must supply the input INPUT_NETLIFY_AUTH_TOKEN to trigger a pull request comment with a Data Docs preview on Netlify."
-        exit 1;
-
-    elif [[ -z "$INPUT_NETLIFY_SITE_ID" ]]; then
-        echo "::error::You must supply the input INPUT_NETLIFY_SITE_ID to trigger a pull request comment with a Data Docs preview on Netlify."
-        exit 1;
-fi
-
-
-if [[ ! -z "$INPUT_AUTO_NETLIFY_DOCS" ]] && [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
-    # GITHUB_HEAD_REF is only set by Actions when a pull_request event is created from a fork. 
-    # Emit a warning to the logs that no comment can be made in this situation, but do not fail the checkrun.
-    # TODO: handle upcoming pull_request_target event once it is realeased on 7/31
-    if [[ ! -z "$GITHUB_HEAD_REF" ]]; then
-            echo "::warning::pull request comments are not supported on a push made from a forked repository for security reasons."
-
-        # Comment on PR if any checkpoint fails    
-        elif [[ $STATUS == 1 ]]; then
-            node comment_on_pr.js
-    fi
-
-elif [[ ! -z "$INPUT_MANUAL_NETLIFY_DOCS_TRIGGER_PHRASE" ]] && [[ "$GITHUB_EVENT_NAME" == "issue_comment" ]]; then
-    node comment_on_pr.js
-fi
-
 echo "::set-output name=CHECKPOINT_FAILURE_FLAG::${STATUS}"
 
-# exit with appropriate status
+# # exit with appropriate status
 if [[ ! -z "$INPUT_DEBUG" ]]; then
     exit $STATUS
 fi

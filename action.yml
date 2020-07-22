@@ -12,12 +12,6 @@ inputs:
     require: false
   GITHUB_TOKEN:
     description: "Your GITHUB_TOKEN https://docs.github.com/en/actions/configuring-and-managing-workflows/authenticating-with-the-github_token#using-the-github_token-in-a-workflow from your Actions Environment."
-  AUTO_NETLIFY_DOCS:
-    description: Setting this input to any value will trigger this Action to comment on the relevant pull request with a link to a Netlify preview of the Data Docs.  This requires the inputs NETLIFY_AUTH_TOKEN, NETLIFY_SITE_ID, and GITHUB_TOKEN to be specified.
-    require: false 
-  MANUAL_NETLIFY_DOCS_TRIGGER_PHRASE:
-    description: A phrase such as /data-docs that will input as a pull request comment, that will manually trigger a Data Docs build and Deploy to Netlify, and a comment with the resulting link.
-    require: false
   DEBUG:
     description: Setting this input to any value will allow the Action to exit with a status code of 0 even if a checkpoint fails.  This is used by maintainers of this Action for testing and debugging.
     require: false
