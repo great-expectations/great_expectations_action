@@ -1,0 +1,39 @@
+# How typical users can Great Expectations in their CI workflows
+name: GE-Pull-Request-Demo
+on: pull_request
+
+jobs:
+  test-hosted-action:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: see payload
+      run: echo "$PAYLOAD"
+      env:
+        PAYLOAD: ${{ toJSON(github.event) }}
+
+    - name: Copy Repository Contents
+      uses: actions/checkout@master
+
+    - name: Run Great Expectation Checkpoints
+      uses: superconductive/great_expectations_action@master
+      with:
+        CHECKPOINTS: "passing_checkpoint,failing_checkpoint"
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+    
+    - name: Comment on PR Upon Checkpoint Failure
+      if: ${{ steps.ge.outputs.checkpoint_failure_flag == '1' }}
+      uses: actions/github-script@v2
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+            github.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `Failed Great Expectations checkpoint(s) \`${FAILED_CHECKPOIINTS}\` detected for: ${process.env.GITHUB_SHA}.  Corresponding Data Docs have been generated and can be viewed [here](${process.env.URL}).`
+            })
+      env:
+        URL: ${{ steps.ge.outputs.docs_url }}
+        FAILED_CHECKPOIINTS: ${{ steps.ge.outputs.failing_checkpoints }}
