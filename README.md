@@ -68,7 +68,6 @@ TODO
 - `NETLIFY_DOCS_URL`:
     description: The url to the generated data docs on Netlify.  This output is only emitted only if the input parameters NETLIFY_AUTH_TOKEN and NETLIFY_SITE_ID are provided.
 
-
 # Development
 
 This section is for those who wish to develop this GitHub Action.  Users of this Action can ignore this section.
