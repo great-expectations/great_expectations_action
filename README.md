@@ -26,10 +26,78 @@ TODO: insert GIF here
 
 # Usage
 
-## Example 1 TODO
+## Example 1: Trigger Data Docs Generation With A PR Comment
+
+The below example checks pull request comments for the presence of a special command: `/data-docs`.  If this command is present, the following steps occur:
+
+1. The HEAD SHA for the pull request commented on is retrieved.
+2. The contents for the repository are fetched at the HEAD SHA of the branch of the pull request.
+3. Great Expectations checkpoints are run, and Data Docs are deployed to Netlify.
+4. The Netlify URL is provided as a comment on the pull request.
 
 ```yaml
-TODO
+# Allows repo owners to view data docs hosted on Netlify for a PR with the command "/data-docs" as a comment in a PR.
+name: PR Comment
+on: [issue_comment]
+
+jobs:
+  demo-pr:
+    # Check that a comment with word '/data-docs' is made on pull request (not an issue).
+    if: | 
+      (github.event.issue.pull_request != null) &&
+      contains(github.event.comment.body, '/data-docs')
+    runs-on: ubuntu-latest
+    steps:
+
+      # Get the HEAD SHA of the pull request that has been commented on.
+    - name: Fetch context about the PR that has been commented on
+      id: chatops
+      uses: actions/github-script@v1
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          // Get the branch name
+          github.pulls.get({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            pull_number: context.payload.issue.number
+          }).then( (pr) => {
+            // Get latest SHA of current branch
+            var SHA = pr.data.head.sha
+            console.log(`::set-output name=SHA::${SHA}`)
+          })
+
+      # Clone the contents of the repository at the SHA fetched in the previous step
+    - name: Copy The PR's Branch Repository Contents
+      uses: actions/checkout@master
+      with:
+        ref: ${{ steps.chatops.outputs.SHA }}
+
+      # Run Great Expectation checkpoints and deploy Data Docs to Netlify
+    - name: run great expectation checkpoints
+      id: ge
+      continue-on-error: true
+      uses: superconductive/great_expectations_action@master
+      with:
+        CHECKPOINTS: "passing_checkpoint,failing_checkpoint"
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+      # Comment on PR with link to deployed Data Docs on Netlify
+    - name: Comment on PR
+      uses: actions/github-script@v2
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `Great Expectations Data Docs have been generated for SHA: ${process.env.SHA} and can be viewed [here](${process.env.URL}).`
+            })
+      env:
+        URL: ${{ steps.ge.outputs.docs_url }}
+        SHA: ${{ steps.chatops.outputs.SHA }}  
 ```
 
 ## Example 2 TODO
