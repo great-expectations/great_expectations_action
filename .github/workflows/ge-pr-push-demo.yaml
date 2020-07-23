@@ -1,5 +1,5 @@
 # How typical users can Great Expectations in their CI workflows
-name: GE-Pull-Request-Demo
+name: PR Push
 on: pull_request
 
 jobs:
@@ -17,13 +17,14 @@ jobs:
 
     - name: Run Great Expectation Checkpoints
       uses: superconductive/great_expectations_action@master
+      continue-on-error: true
       with:
         CHECKPOINTS: "passing_checkpoint,failing_checkpoint"
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
     
     - name: Comment on PR Upon Checkpoint Failure
-      if: ${{ steps.ge.outputs.checkpoint_failure_flag == '1' }}
+      if: steps.ge.outputs.checkpoint_failure_flag == '1' && 
       uses: actions/github-script@v2
       with:
         github-token: ${{secrets.GITHUB_TOKEN}}
