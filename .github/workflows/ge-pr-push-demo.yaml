@@ -13,6 +13,7 @@ jobs:
 
       # Run Great Expectations and deploy Data Docs to Netlify
     - name: Run Great Expectation Checkpoints
+      id: ge
       uses: superconductive/great_expectations_action@master
       continue-on-error: true
       with:
