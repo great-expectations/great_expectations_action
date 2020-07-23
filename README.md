@@ -26,7 +26,52 @@ TODO: insert GIF here
 
 # Usage
 
-## Example 1: Trigger Data Docs Generation With A PR Comment
+## Example 1 (Simple): Run Great Expectations, Provide Links To Docs on Netlify If Error
+
+This example triggers Great Expectations to run everytime a pull request is opened, reopened, or a push is made to a pull request.  Furthermore, if a checkpoint fails a comment with a link to the Data Docs hosted on Netlify is provided.
+
+```yaml
+# Automatically Runs Great Expectation Checkpoints on every push to a PR, and provides links to hosted Data Docs if there an error.
+name: PR Push
+on: pull_request
+
+jobs:
+  test-hosted-action:
+    runs-on: ubuntu-latest
+    steps:
+
+      # Clone the contents of the repository
+    - name: Copy Repository Contents
+      uses: actions/checkout@master
+
+      # Run Great Expectations and deploy Data Docs to Netlify
+    - name: Run Great Expectation Checkpoints
+      uses: superconductive/great_expectations_action@master
+      continue-on-error: true
+      with:
+        CHECKPOINTS: "passing_checkpoint,failing_checkpoint"
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+    
+    # If a checkpoint failed, comment on the PR with a link to the Data Docs hosted on Netlify.
+    - name: Comment on PR Upon Checkpoint Failure
+      if: steps.ge.outputs.checkpoint_failure_flag == '1'
+      uses: actions/github-script@v2
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+            github.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `Failed Great Expectations checkpoint(s) \`${FAILED_CHECKPOIINTS}\` detected for: ${process.env.GITHUB_SHA}.  Corresponding Data Docs have been generated and can be viewed [here](${process.env.URL}).`
+            })
+      env:
+        URL: ${{ steps.ge.outputs.docs_url }}
+        FAILED_CHECKPOIINTS: ${{ steps.ge.outputs.failing_checkpoints }}
+```
+
+## Example 2 (Advanced): Trigger Data Docs Generation With A PR Comment
 
 The below example checks pull request comments for the presence of a special command: `/data-docs`.  If this command is present, the following steps occur:
 
@@ -100,11 +145,7 @@ jobs:
         SHA: ${{ steps.chatops.outputs.SHA }}  
 ```
 
-## Example 2 TODO
 
-```yaml
-TODO
-```
 
 # API Reference
 
