@@ -3,22 +3,37 @@
 
  <h1><img src="https://github.com/superconductive/great_expectations_action/blob/master/ge-logo.png" width="100" height="100">Great Expectations GitHub Action</h1>
 
-# Table of Contents
-
-TODO: Add TOC
-
-# Background
-
-This Action allows you to validate your data with [Great Expectations](https://greatexpectations.io/).  From [the docs](https://docs.greatexpectations.io/en/latest/):
+This Action allows you to validate and profile your data with [Great Expectations](https://greatexpectations.io/).  From [the docs](https://docs.greatexpectations.io/en/latest/):
 
 > Great Expectations is a leading tool for validating, documenting, and profiling your data to maintain quality and improve communication between teams.
 
 This Action provides the following features:
 
-- Run Great Expectations checkpoints as part of your continuous integration process, along side your unit tests, etc.
-- Generate Data Docs and user interfaces that allow you to troubleshoot failed checkpoints or investigate data.
+- Run [ Expectations Suites](https://docs.greatexpectations.io/en/latest/reference/core_concepts.html#expectations), to validate your data as part of your continuous integration workflow.
+- Generate [Data Docs](https://docs.greatexpectations.io/en/latest/reference/core_concepts/data_docs.html#data-docs) and [Profiling](https://docs.greatexpectations.io/en/latest/reference/core_concepts/profiling.html) that allow you to troubleshoot failed checkpoints or investigate data.
 - Built-in support to deploy Docs to [Netlify](https://www.netlify.com/), which is useful to preview changes in pull requests.
 - Composability with other Actions that allow you to deploy Data Docs to any location, or customize your workflows.
+
+# Table of Contents
+
+<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
+
+- [Demo](#demo)
+- [Usage](#usage)
+	- [Example 1 (Simple): Run Great Expectations And Provide Links To Docs](#example-1-simple-run-great-expectations-and-provide-links-to-docs)
+	- [Example 2 (Advanced): Trigger Data Docs Generation With A PR Comment](#example-2-advanced-trigger-data-docs-generation-with-a-pr-comment)
+- [API Reference](#api-reference)
+	- [Inputs](#inputs)
+		- [Mandatory Inputs](#mandatory-inputs)
+		- [Optional Inputs](#optional-inputs)
+	- [Outputs](#outputs)
+- [Development](#development)
+	- [Installation](#installation)
+	- [Usage](#usage)
+	- [Current Limitations](#current-limitations)
+
+<!-- /TOC -->
+
 
 # Demo
 
@@ -26,7 +41,54 @@ TODO: insert GIF here
 
 # Usage
 
-## Example 1: Trigger Data Docs Generation With A PR Comment
+## Example 1 (Simple): Run Great Expectations And Provide Links To Docs
+
+This example triggers Great Expectations to run everytime a pull request is opened, reopened, or a push is made to a pull request.  Furthermore, if a checkpoint fails a comment with a link to the Data Docs hosted on Netlify is provided.
+
+> Note: This example will not work on pull requests from forks. This is to protect repositories from malicious actors. To trigger a GitHub Action with sufficient permissions to comment on a pull request from a fork, you must trigger the action via another event, such as a comment or a label. This is demonstrated in Example 2 below.
+
+```yaml
+#Automatically Runs Great Expectation Checkpoints on every push to a PR, and provides links to hosted Data Docs if there an error.
+name: PR Push
+on: pull_request
+
+jobs:
+  test-hosted-action:
+    runs-on: ubuntu-latest
+    steps:
+
+      # Clone the contents of the repository
+    - name: Copy Repository Contents
+      uses: actions/checkout@master
+
+      # Run Great Expectations and deploy Data Docs to Netlify
+    - name: Run Great Expectation Checkpoints
+      uses: superconductive/great_expectations_action@master
+      continue-on-error: true
+      with:
+        CHECKPOINTS: "passing_checkpoint,failing_checkpoint"
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+    
+    # If a checkpoint failed, comment on the PR with a link to the Data Docs hosted on Netlify.
+    - name: Comment on PR Upon Checkpoint Failure
+      if: steps.ge.outputs.checkpoint_failure_flag == '1'
+      uses: actions/github-script@v2
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+            github.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `Failed Great Expectations checkpoint(s) \`${FAILED_CHECKPOIINTS}\` detected for: ${process.env.GITHUB_SHA}.  Corresponding Data Docs have been generated and can be viewed [here](${process.env.URL}).`
+            })
+      env:
+        URL: ${{ steps.ge.outputs.docs_url }}
+        FAILED_CHECKPOIINTS: ${{ steps.ge.outputs.failing_checkpoints }}
+```
+
+## Example 2 (Advanced): Trigger Data Docs Generation With A PR Comment
 
 The below example checks pull request comments for the presence of a special command: `/data-docs`.  If this command is present, the following steps occur:
 
@@ -36,7 +98,7 @@ The below example checks pull request comments for the presence of a special com
 4. The Netlify URL is provided as a comment on the pull request.
 
 ```yaml
-# Allows repo owners to view data docs hosted on Netlify for a PR with the command "/data-docs" as a comment in a PR.
+#Allows repo owners to view data docs hosted on Netlify for a PR with the command "/data-docs" as a comment in a PR.
 name: PR Comment
 on: [issue_comment]
 
@@ -100,11 +162,6 @@ jobs:
         SHA: ${{ steps.chatops.outputs.SHA }}  
 ```
 
-## Example 2 TODO
-
-```yaml
-TODO
-```
 
 # API Reference
 

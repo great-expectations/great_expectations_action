@@ -1,4 +1,4 @@
-# How typical users can Great Expectations in their CI workflows
+# Automatically Runs Great Expectation Checkpoints on every push to a PR, and provides links to hosted Data Docs if there an error.
 name: PR Push
 on: pull_request
 
@@ -7,15 +7,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - name: see payload
-      run: echo "$PAYLOAD"
-      env:
-        PAYLOAD: ${{ toJSON(github.event) }}
-
+      # Clone the contents of the repository
     - name: Copy Repository Contents
       uses: actions/checkout@master
 
+      # Run Great Expectations and deploy Data Docs to Netlify
     - name: Run Great Expectation Checkpoints
+      id: ge
       uses: superconductive/great_expectations_action@master
       continue-on-error: true
       with:
@@ -23,6 +21,7 @@ jobs:
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
     
+    # If a checkpoint failed, comment on the PR with a link to the Data Docs hosted on Netlify.
     - name: Comment on PR Upon Checkpoint Failure
       if: steps.ge.outputs.checkpoint_failure_flag == '1'
       uses: actions/github-script@v2
@@ -33,8 +32,8 @@ jobs:
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: `Failed Great Expectations checkpoint(s) \`${FAILED_CHECKPOIINTS}\` detected for: ${process.env.GITHUB_SHA}.  Corresponding Data Docs have been generated and can be viewed [here](${process.env.URL}).`
+            body: `Failed Great Expectations checkpoint(s) \`${process.env.FAILED_CHECKPOINTS}\` detected for: ${process.env.GITHUB_SHA}.  Corresponding Data Docs have been generated and can be viewed [here](${process.env.URL}).`
             })
       env:
         URL: ${{ steps.ge.outputs.docs_url }}
-        FAILED_CHECKPOIINTS: ${{ steps.ge.outputs.failing_checkpoints }}
+        FAILED_CHECKPOINTS: ${{ steps.ge.outputs.failing_checkpoints }}
