@@ -1,13 +1,17 @@
-# Allows repo owners to view data docs hosted on netlify for the PR with the command "/data-docs" as a comment in a PR.
+# Allows repo owners to view data docs hosted on Netlify for a PR with the command "/data-docs" as a comment in a PR.
 name: PR Comment
 on: [issue_comment]
 
 jobs:
   demo-pr:
-    if: (github.event.issue.pull_request != null) && contains(github.event.comment.body, '/data-docs')
+    # Check that a comment with word '/data-docs' is made on pull request (not an issue).
+    if: | 
+      (github.event.issue.pull_request != null) &&
+      contains(github.event.comment.body, '/data-docs')
     runs-on: ubuntu-latest
     steps:
 
+      # Get the HEAD SHA of the pull request that has been commented on.
     - name: Fetch context about the PR that has been commented on
       id: chatops
       uses: actions/github-script@v1
@@ -25,11 +29,13 @@ jobs:
             console.log(`::set-output name=SHA::${SHA}`)
           })
 
+      # Clone the contents of the repository at the SHA fetched in the previous step
     - name: Copy The PR's Branch Repository Contents
       uses: actions/checkout@master
       with:
         ref: ${{ steps.chatops.outputs.SHA }}
 
+      # Run Great Expectation checkpoints and deploy Data Docs to Netlify
     - name: run great expectation checkpoints
       id: ge
       continue-on-error: true
@@ -39,6 +45,7 @@ jobs:
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
+      # Comment on PR with link to deployed Data Docs on Netlify
     - name: Comment on PR
       uses: actions/github-script@v2
       with:
