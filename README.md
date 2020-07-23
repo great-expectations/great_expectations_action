@@ -45,6 +45,8 @@ TODO: insert GIF here
 
 This example triggers Great Expectations to run everytime a pull request is opened, reopened, or a push is made to a pull request.  Furthermore, if a checkpoint fails a comment with a link to the Data Docs hosted on Netlify is provided.
 
+> Note: This example will not work on pull requests from forks. This is to protect repositories from malicious actors. To trigger a GitHub Action with sufficient permissions to comment on a pull request from a fork, you must trigger the action via another event, such as a comment or a label. This is demonstrated in Example 2 below.
+
 ```yaml
 #Automatically Runs Great Expectation Checkpoints on every push to a PR, and provides links to hosted Data Docs if there an error.
 name: PR Push
@@ -159,7 +161,6 @@ jobs:
         URL: ${{ steps.ge.outputs.docs_url }}
         SHA: ${{ steps.chatops.outputs.SHA }}  
 ```
-
 
 
 # API Reference
