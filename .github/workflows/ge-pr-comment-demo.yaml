@@ -1,5 +1,5 @@
 # Allows repo owners to view data docs hosted on netlify for the PR with the command "/data-docs" as a comment in a PR.
-name: GE-PR-Comment-Demo
+name: PR Comment Demo
 on: [issue_comment]
 
 jobs:
