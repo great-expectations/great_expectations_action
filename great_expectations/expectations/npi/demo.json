@@ -386,7 +386,7 @@
       "batch_kwargs": {
         "data_asset_name": "npi",
         "datasource": "csvs",
-        "path": "/Users/talgluck/Documents/crushing-pipeline-debt-demo/great_expectations/../data/npi.csv"
+        "path": "data/npi.csv"
       },
       "created_at": 1595943301.317559,
       "created_by": "BasicSuiteBuilderProfiler"
@@ -396,7 +396,7 @@
         "batch_kwargs": {
           "data_asset_name": "npi",
           "datasource": "data__dir",
-          "path": "/Users/talgluck/Documents/crushing-pipeline-debt-demo/great_expectations/../data/npi.csv"
+          "path": "data/npi.csv"
         },
         "batch_markers": {
           "ge_load_time": "20200728T133501.004751Z",
