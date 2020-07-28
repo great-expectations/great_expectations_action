@@ -1,0 +1,633 @@
+{
+  "data_asset_type": "Dataset",
+  "expectation_suite_name": "npi.demo",
+  "expectations": [
+    {
+      "expectation_type": "expect_table_row_count_to_be_between",
+      "kwargs": {
+        "max_value": 10998,
+        "min_value": 8999
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_table_column_count_to_equal",
+      "kwargs": {
+        "value": 71
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_table_columns_to_match_ordered_list",
+      "kwargs": {
+        "column_list": [
+          "npi",
+          "nppes_provider_last_org_name",
+          "nppes_provider_first_name",
+          "nppes_provider_mi",
+          "nppes_credentials",
+          "nppes_provider_gender",
+          "nppes_entity_code",
+          "nppes_provider_street1",
+          "nppes_provider_street2",
+          "nppes_provider_city",
+          "nppes_provider_zip",
+          "nppes_provider_ruca",
+          "nppes_provider_state",
+          "nppes_provider_country",
+          "provider_type",
+          "medicare_participation_indicator",
+          "number_of_hcpcs",
+          "total_services",
+          "total_unique_benes",
+          "total_submitted_chrg_amt",
+          "total_medicare_allowed_amt",
+          "total_medicare_payment_amt",
+          "total_medicare_stnd_amt",
+          "drug_suppress_indicator",
+          "number_of_drug_hcpcs",
+          "total_drug_services",
+          "total_drug_unique_benes",
+          "total_drug_submitted_chrg_amt",
+          "total_drug_medicare_allowed_amt",
+          "total_drug_medicare_payment_amt",
+          "total_drug_medicare_stnd_amt",
+          "med_suppress_indicator",
+          "number_of_med_hcpcs",
+          "total_med_services",
+          "total_med_unique_benes",
+          "total_med_submitted_chrg_amt",
+          "total_med_medicare_allowed_amt",
+          "total_med_medicare_payment_amt",
+          "total_med_medicare_stnd_amt",
+          "beneficiary_average_age",
+          "beneficiary_age_less_65_count",
+          "beneficiary_age_65_74_count",
+          "beneficiary_age_75_84_count",
+          "beneficiary_age_greater_84_count",
+          "beneficiary_female_count",
+          "beneficiary_male_count",
+          "beneficiary_race_white_count",
+          "beneficiary_race_black_count",
+          "beneficiary_race_api_count",
+          "beneficiary_race_hispanic_count",
+          "beneficiary_race_natind_count",
+          "beneficiary_race_other_count",
+          "beneficiary_nondual_count",
+          "beneficiary_dual_count",
+          "beneficiary_cc_afib_percent",
+          "beneficiary_cc_alzrdsd_percent",
+          "beneficiary_cc_asthma_percent",
+          "beneficiary_cc_cancer_percent",
+          "beneficiary_cc_chf_percent",
+          "beneficiary_cc_ckd_percent",
+          "beneficiary_cc_copd_percent",
+          "beneficiary_cc_depr_percent",
+          "beneficiary_cc_diab_percent",
+          "beneficiary_cc_hyperl_percent",
+          "beneficiary_cc_hypert_percent",
+          "beneficiary_cc_ihd_percent",
+          "beneficiary_cc_ost_percent",
+          "beneficiary_cc_raoa_percent",
+          "beneficiary_cc_schiot_percent",
+          "beneficiary_cc_strk_percent",
+          "beneficiary_avg_risk_score"
+        ]
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "npi"
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_unique",
+      "kwargs": {
+        "column": "npi",
+        "mostly": 0.99
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "nppes_credentials",
+        "mostly": 0.795
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_column_value_lengths_to_be_between",
+      "kwargs": {
+        "column": "nppes_credentials",
+        "min_value": 1
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "nppes_provider_gender",
+        "mostly": 0.842
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_column_distinct_values_to_be_in_set",
+      "kwargs": {
+        "column": "nppes_provider_gender",
+        "value_set": [
+          "F",
+          "M"
+        ]
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_column_kl_divergence_to_be_less_than",
+      "kwargs": {
+        "column": "nppes_provider_gender",
+        "partition_object": {
+          "values": [
+            "F",
+            "M"
+          ],
+          "weights": [
+            0.4430285653605182,
+            0.5569714346394817
+          ]
+        },
+        "threshold": 0.6
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "nppes_entity_code"
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_column_distinct_values_to_be_in_set",
+      "kwargs": {
+        "column": "nppes_entity_code",
+        "value_set": [
+          "I",
+          "O"
+        ]
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_column_kl_divergence_to_be_less_than",
+      "kwargs": {
+        "column": "nppes_entity_code",
+        "partition_object": {
+          "values": [
+            "I",
+            "O"
+          ],
+          "weights": [
+            0.9417941794179417,
+            0.058205820582058206
+          ]
+        },
+        "threshold": 0.6
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "total_services"
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_column_min_to_be_between",
+      "kwargs": {
+        "column": "total_services",
+        "max_value": 15.0,
+        "min_value": 0.0
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_column_max_to_be_between",
+      "kwargs": {
+        "column": "total_services",
+        "max_value": 550000.0,
+        "min_value": 520000.0
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_column_mean_to_be_between",
+      "kwargs": {
+        "column": "total_services",
+        "max_value": 3000,
+        "min_value": 2500
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_column_median_to_be_between",
+      "kwargs": {
+        "column": "total_services",
+        "max_value": 600,
+        "min_value": 500
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_column_quantile_values_to_be_between",
+      "kwargs": {
+        "allow_relative_error": false,
+        "column": "total_services",
+        "quantile_ranges": {
+          "quantiles": [
+            0.05,
+            0.25,
+            0.5,
+            0.75,
+            0.95
+          ],
+          "value_ranges": [
+            [
+              20.0,
+              60.0
+            ],
+            [
+              150.0,
+              200.0
+            ],
+            [
+              500.0,
+              600.0
+            ],
+            [
+              1500.0,
+              2000.0
+            ],
+            [
+              6000.0,
+              8000.0
+            ]
+          ]
+        }
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "beneficiary_average_age"
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_column_mean_to_be_between",
+      "kwargs": {
+        "column": "beneficiary_average_age",
+        "max_value": 70,
+        "min_value": 50
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "beneficiary_avg_risk_score"
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_column_min_to_be_between",
+      "kwargs": {
+        "column": "beneficiary_avg_risk_score",
+        "max_value": 2,
+        "min_value": 0
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_column_max_to_be_between",
+      "kwargs": {
+        "column": "beneficiary_avg_risk_score",
+        "max_value": 15,
+        "min_value": 10
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_column_mean_to_be_between",
+      "kwargs": {
+        "column": "beneficiary_avg_risk_score",
+        "max_value": 3,
+        "min_value": 1
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_column_median_to_be_between",
+      "kwargs": {
+        "column": "beneficiary_avg_risk_score",
+        "max_value": 3,
+        "min_value": 1
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_column_quantile_values_to_be_between",
+      "kwargs": {
+        "allow_relative_error": false,
+        "column": "beneficiary_avg_risk_score",
+        "quantile_ranges": {
+          "quantiles": [
+            0.05,
+            0.25,
+            0.5,
+            0.75,
+            0.95
+          ],
+          "value_ranges": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1.3
+            ],
+            [
+              1.3,
+              1.7
+            ],
+            [
+              1.7,
+              2.5
+            ],
+            [
+              3,
+              4
+            ]
+          ]
+        }
+      },
+      "meta": {}
+    }
+  ],
+  "meta": {
+    "BasicSuiteBuilderProfiler": {
+      "batch_kwargs": {
+        "data_asset_name": "npi",
+        "datasource": "csvs",
+        "path": "/Users/talgluck/Documents/crushing-pipeline-debt-demo/great_expectations/../data/npi.csv"
+      },
+      "created_at": 1595943301.317559,
+      "created_by": "BasicSuiteBuilderProfiler"
+    },
+    "citations": [
+      {
+        "batch_kwargs": {
+          "data_asset_name": "npi",
+          "datasource": "data__dir",
+          "path": "/Users/talgluck/Documents/crushing-pipeline-debt-demo/great_expectations/../data/npi.csv"
+        },
+        "batch_markers": {
+          "ge_load_time": "20200728T133501.004751Z",
+          "pandas_data_fingerprint": "f6037d92eb4c01f976513bc0aec2420d"
+        },
+        "batch_parameters": null,
+        "citation_date": "20200728T133501.394196Z",
+        "comment": "BasicSuiteBuilderProfiler added a citation based on the current batch."
+      }
+    ],
+    "columns": {
+      "beneficiary_age_65_74_count": {
+        "description": ""
+      },
+      "beneficiary_age_75_84_count": {
+        "description": ""
+      },
+      "beneficiary_age_greater_84_count": {
+        "description": ""
+      },
+      "beneficiary_age_less_65_count": {
+        "description": ""
+      },
+      "beneficiary_average_age": {
+        "description": ""
+      },
+      "beneficiary_avg_risk_score": {
+        "description": ""
+      },
+      "beneficiary_cc_afib_percent": {
+        "description": ""
+      },
+      "beneficiary_cc_alzrdsd_percent": {
+        "description": ""
+      },
+      "beneficiary_cc_asthma_percent": {
+        "description": ""
+      },
+      "beneficiary_cc_cancer_percent": {
+        "description": ""
+      },
+      "beneficiary_cc_chf_percent": {
+        "description": ""
+      },
+      "beneficiary_cc_ckd_percent": {
+        "description": ""
+      },
+      "beneficiary_cc_copd_percent": {
+        "description": ""
+      },
+      "beneficiary_cc_depr_percent": {
+        "description": ""
+      },
+      "beneficiary_cc_diab_percent": {
+        "description": ""
+      },
+      "beneficiary_cc_hyperl_percent": {
+        "description": ""
+      },
+      "beneficiary_cc_hypert_percent": {
+        "description": ""
+      },
+      "beneficiary_cc_ihd_percent": {
+        "description": ""
+      },
+      "beneficiary_cc_ost_percent": {
+        "description": ""
+      },
+      "beneficiary_cc_raoa_percent": {
+        "description": ""
+      },
+      "beneficiary_cc_schiot_percent": {
+        "description": ""
+      },
+      "beneficiary_cc_strk_percent": {
+        "description": ""
+      },
+      "beneficiary_dual_count": {
+        "description": ""
+      },
+      "beneficiary_female_count": {
+        "description": ""
+      },
+      "beneficiary_male_count": {
+        "description": ""
+      },
+      "beneficiary_nondual_count": {
+        "description": ""
+      },
+      "beneficiary_race_api_count": {
+        "description": ""
+      },
+      "beneficiary_race_black_count": {
+        "description": ""
+      },
+      "beneficiary_race_hispanic_count": {
+        "description": ""
+      },
+      "beneficiary_race_natind_count": {
+        "description": ""
+      },
+      "beneficiary_race_other_count": {
+        "description": ""
+      },
+      "beneficiary_race_white_count": {
+        "description": ""
+      },
+      "drug_suppress_indicator": {
+        "description": ""
+      },
+      "med_suppress_indicator": {
+        "description": ""
+      },
+      "medicare_participation_indicator": {
+        "description": ""
+      },
+      "npi": {
+        "description": ""
+      },
+      "nppes_credentials": {
+        "description": ""
+      },
+      "nppes_entity_code": {
+        "description": ""
+      },
+      "nppes_provider_city": {
+        "description": ""
+      },
+      "nppes_provider_country": {
+        "description": ""
+      },
+      "nppes_provider_first_name": {
+        "description": ""
+      },
+      "nppes_provider_gender": {
+        "description": ""
+      },
+      "nppes_provider_last_org_name": {
+        "description": ""
+      },
+      "nppes_provider_mi": {
+        "description": ""
+      },
+      "nppes_provider_ruca": {
+        "description": ""
+      },
+      "nppes_provider_state": {
+        "description": ""
+      },
+      "nppes_provider_street1": {
+        "description": ""
+      },
+      "nppes_provider_street2": {
+        "description": ""
+      },
+      "nppes_provider_zip": {
+        "description": ""
+      },
+      "number_of_drug_hcpcs": {
+        "description": ""
+      },
+      "number_of_hcpcs": {
+        "description": ""
+      },
+      "number_of_med_hcpcs": {
+        "description": ""
+      },
+      "provider_type": {
+        "description": ""
+      },
+      "total_drug_medicare_allowed_amt": {
+        "description": ""
+      },
+      "total_drug_medicare_payment_amt": {
+        "description": ""
+      },
+      "total_drug_medicare_stnd_amt": {
+        "description": ""
+      },
+      "total_drug_services": {
+        "description": ""
+      },
+      "total_drug_submitted_chrg_amt": {
+        "description": ""
+      },
+      "total_drug_unique_benes": {
+        "description": ""
+      },
+      "total_med_medicare_allowed_amt": {
+        "description": ""
+      },
+      "total_med_medicare_payment_amt": {
+        "description": ""
+      },
+      "total_med_medicare_stnd_amt": {
+        "description": ""
+      },
+      "total_med_services": {
+        "description": ""
+      },
+      "total_med_submitted_chrg_amt": {
+        "description": ""
+      },
+      "total_med_unique_benes": {
+        "description": ""
+      },
+      "total_medicare_allowed_amt": {
+        "description": ""
+      },
+      "total_medicare_payment_amt": {
+        "description": ""
+      },
+      "total_medicare_stnd_amt": {
+        "description": ""
+      },
+      "total_services": {
+        "description": ""
+      },
+      "total_submitted_chrg_amt": {
+        "description": ""
+      },
+      "total_unique_benes": {
+        "description": ""
+      }
+    },
+    "great_expectations.__version__": "0.11.8",
+    "notes": {
+      "content": [
+        "_To add additional notes, edit the <code>meta.notes.content</code> field in the appropriate Expectation json file._"
+      ],
+      "format": "markdown"
+    }
+  }
+}
