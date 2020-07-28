@@ -14,7 +14,7 @@ validation_operator_name: action_list_operator
 # Great Expectations in your pipelines easy!
 batches:
   - batch_kwargs:
-      path: /Users/taylor/repos/great_expectations_action/great_expectations/../data/good.csv
+      path: data/good.csv
       datasource: csvs
       data_asset_name: good
     expectation_suite_names: # one or more suites may validate against a single batch
