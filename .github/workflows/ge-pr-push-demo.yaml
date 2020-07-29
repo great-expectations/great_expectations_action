@@ -4,8 +4,6 @@ on: pull_request
 
 jobs:
   test-hosted-action:
-    env:
-      GH_PAT: ${{ secrets.GH_PAT }}
     runs-on: ubuntu-latest
     steps:
 
