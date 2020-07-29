@@ -5,7 +5,7 @@ on: pull_request
 jobs:
   test-hosted-action:
     env:
-      GH_PAT: ${{secrets.GH_PAT}}
+      GH_PAT: ${{secrets.GITHUB_TOKEN}}
     runs-on: ubuntu-latest
     steps:
 
