@@ -22,7 +22,12 @@ class GHIssue(ValidationAction):
              data_asset=None):
         results = self.data_context.validations_store.get(validation_result_suite_identifier)
         msg = self.parse_results(results)
-        self.create_github_issue(issue_body=msg)
+        
+        if os.getenv('GITHUB_ACTIONS'):
+            logging.warning('Not creating GitHub Issue in GitHub Actions context')
+            print(f"::set-output name=GITHUB_ISSUE_MSG::{msg}")
+        else:
+            self.create_github_issue(issue_body=msg)
 
     def create_github_issue(self, issue_body):
         """
