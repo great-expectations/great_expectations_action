@@ -5,7 +5,7 @@ import json
 import os
 
 from great_expectations.validation_operators.actions import ValidationAction
-
+logging.basicConfig()
 
 class GHIssue(ValidationAction):
     def __init__(
@@ -21,9 +21,11 @@ class GHIssue(ValidationAction):
              validation_result_suite,
              validation_result_suite_identifier,
              data_asset=None):
+        
         results = self.data_context.validations_store.get(validation_result_suite_identifier)
         msg = self.parse_results(results)
-
+        
+        logging.getLogger().setLevel(logging.WARNING)
         # disable issue commenting when this is run inside GitHub Actions
         if os.getenv('GITHUB_ACTIONS'):
             logging.warning('Not creating GitHub Issue in GitHub Actions context')
@@ -51,7 +53,7 @@ class GHIssue(ValidationAction):
         # Add the issue to the repository
         response = requests.request("POST", url, data=json.dumps(data), headers=headers)
         if response.status_code == 202:
-            logging.debug(f'Successfully created Issue "{self.issue_title}"')
+            logging.warning(f'Successfully created Issue "{self.issue_title}"')
         else:
             err_msg = f'Could not create Issue "{self.issue_title}"'
             logging.error(err_msg)
