@@ -2,7 +2,6 @@ import logging
 import sys
 import requests
 import json
-import ipdb
 
 from great_expectations.validation_operators.actions import ValidationAction
 
@@ -21,7 +20,6 @@ class GHIssue(ValidationAction):
              validation_result_suite,
              validation_result_suite_identifier,
              data_asset=None):
-        # ipdb.set_trace()
         results = self.data_context.validations_store.get(validation_result_suite_identifier)
         msg = self.parse_results(results)
         self.create_github_issue(issue_body=msg)
