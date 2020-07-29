@@ -66,6 +66,14 @@ validation_operators:
     - name: update_data_docs
       action:
         class_name: UpdateDataDocsAction
+    - name: hack
+      action:
+        class_name: GHIssue
+        module_name: issue
+        issue_title: "GE Expectation Suite Failed"
+        token: ${GH_PAT}
+        repo_owner: "superconductive"
+        repo_name: "great_expectations_action"
       # - name: send_slack_notification_on_validation_result
       #   action:
       #     class_name: SlackNotificationAction
@@ -119,6 +127,7 @@ data_docs_sites:
       base_directory: uncommitted/data_docs/local_site/
     site_index_builder:
       class_name: DefaultSiteIndexBuilder
+    
 
 anonymous_usage_statistics:
   enabled: true

@@ -391,22 +391,6 @@
       "created_at": 1595943301.317559,
       "created_by": "BasicSuiteBuilderProfiler"
     },
-    "citations": [
-      {
-        "batch_kwargs": {
-          "data_asset_name": "npi",
-          "datasource": "data__dir",
-          "path": "data/npi.csv"
-        },
-        "batch_markers": {
-          "ge_load_time": "20200728T133501.004751Z",
-          "pandas_data_fingerprint": "f6037d92eb4c01f976513bc0aec2420d"
-        },
-        "batch_parameters": null,
-        "citation_date": "20200728T133501.394196Z",
-        "comment": "BasicSuiteBuilderProfiler added a citation based on the current batch."
-      }
-    ],
     "columns": {
       "beneficiary_age_65_74_count": {
         "description": ""
