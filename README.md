@@ -1,6 +1,5 @@
 ![](https://github.com/superconductive/great_expectations_action/workflows/Action%20Build/badge.svg) ![](https://github.com/superconductive/great_expectations_action/workflows/PR%20Comment/badge.svg) ![](https://github.com/superconductive/great_expectations_action/workflows/PR%20Push/badge.svg) [![MLOps](https://img.shields.io/badge/MLOps-black.svg?logo=github&?logoColor=blue)](https://mlops-github.com)
 
-
  <h1><img src="https://github.com/superconductive/great_expectations_action/blob/master/ge-logo.png" width="100" height="100">Great Expectations GitHub Action</h1>
 
 This Action allows you to validate and profile your data with [Great Expectations](https://greatexpectations.io/).  From [the docs](https://docs.greatexpectations.io/en/latest/):
