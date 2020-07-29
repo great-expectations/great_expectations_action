@@ -26,7 +26,7 @@ class GHIssue(ValidationAction):
 
         if os.getenv('GITHUB_ACTIONS'):
             logging.warning('Not creating GitHub Issue in GitHub Actions context')
-            print(f"::set-output name=GITHUB_ISSUE_MSG::{msg}")
+            print(f'\n{msg}\n')
         else:
             self.create_github_issue(issue_body=msg)
 
