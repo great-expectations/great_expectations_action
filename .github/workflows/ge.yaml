@@ -9,7 +9,7 @@ jobs:
     steps:
 
     - name: Copy Repository Contents
-      uses: actions/checkout@master
+      uses: actions/checkout@main
 
     - name: execute local action
       id: ge
