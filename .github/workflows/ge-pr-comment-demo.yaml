@@ -4,6 +4,8 @@ on: [issue_comment]
 
 jobs:
   demo-pr:
+    env:
+      GH_PAT: ${{secrets.GH_PAT}}
     # Check that a comment with word '/data-docs' is made on pull request (not an issue).
     if: | 
       (github.event.issue.pull_request != null) &&
