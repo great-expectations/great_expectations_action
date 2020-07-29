@@ -2,6 +2,7 @@ import logging
 import sys
 import requests
 import json
+import os
 
 from great_expectations.validation_operators.actions import ValidationAction
 
@@ -22,7 +23,7 @@ class GHIssue(ValidationAction):
              data_asset=None):
         results = self.data_context.validations_store.get(validation_result_suite_identifier)
         msg = self.parse_results(results)
-        
+
         if os.getenv('GITHUB_ACTIONS'):
             logging.warning('Not creating GitHub Issue in GitHub Actions context')
             print(f"::set-output name=GITHUB_ISSUE_MSG::{msg}")
