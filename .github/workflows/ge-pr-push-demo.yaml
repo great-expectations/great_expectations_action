@@ -5,17 +5,13 @@ on: pull_request
 jobs:
   test-hosted-action:
     env:
-      GH_PAT: ${{ secrets.GITHUB_TOKEN }}
+      GH_PAT: ${{ secrets.GH_PAT }}
     runs-on: ubuntu-latest
     steps:
 
       # Clone the contents of the repository
     - name: Copy Repository Contents
       uses: actions/checkout@main
-
-    - uses: mxschmitt/action-tmate@v2
-      env:
-        GH_PAT: ${{ secrets.GITHUB_TOKEN }}
 
       # Run Great Expectations and deploy Data Docs to Netlify
     - name: Run Great Expectation Checkpoints
