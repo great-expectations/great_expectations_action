@@ -9,6 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+    - name: see payload
+      run: echo "$PAYLOAD"
+      env:
+        PAYLOAD: ${{ toJSON(github.event) }}
+
       # Clone the contents of the repository
     - name: Copy Repository Contents
       uses: actions/checkout@main
