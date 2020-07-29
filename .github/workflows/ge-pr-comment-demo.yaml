@@ -33,7 +33,7 @@ jobs:
 
       # Clone the contents of the repository at the SHA fetched in the previous step
     - name: Copy The PR's Branch Repository Contents
-      uses: actions/checkout@master
+      uses: actions/checkout@main
       with:
         ref: ${{ steps.chatops.outputs.SHA }}
 
