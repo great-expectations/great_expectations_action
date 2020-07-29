@@ -10,7 +10,8 @@ jobs:
     steps:
 
     - name: see payload
-      run: echo "$PAYLOAD"
+      run: |
+        echo "$PAYLOAD"
       env:
         PAYLOAD: ${{ toJSON(github.event) }}
 
@@ -39,8 +40,9 @@ jobs:
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: `Failed Great Expectations checkpoint(s) \`${process.env.FAILED_CHECKPOINTS}\` detected for: ${process.env.GITHUB_SHA}.  Corresponding Data Docs have been generated and can be viewed [here](${process.env.URL}).`
+            body: `Failed Great Expectations checkpoint(s) \`${process.env.FAILED_CHECKPOINTS}\` detected for: ${process.env.SHA}.  Corresponding Data Docs have been generated and can be viewed [here](${process.env.URL}).`
             })
       env:
         URL: ${{ steps.ge.outputs.netlify_docs_url }}
         FAILED_CHECKPOINTS: ${{ steps.ge.outputs.failing_checkpoints }}
+        SHA: ${{ github.event.after }}

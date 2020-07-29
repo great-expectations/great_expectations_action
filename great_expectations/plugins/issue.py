@@ -24,6 +24,7 @@ class GHIssue(ValidationAction):
         results = self.data_context.validations_store.get(validation_result_suite_identifier)
         msg = self.parse_results(results)
 
+        # disable issue commenting when this is run inside GitHub Actions
         if os.getenv('GITHUB_ACTIONS'):
             logging.warning('Not creating GitHub Issue in GitHub Actions context')
             print(f'\n{msg}\n')
