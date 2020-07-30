@@ -10,9 +10,8 @@ This Action allows you to validate and profile your data with [Great Expectation
 This Action provides the following features:
 
 - Run [ Expectations Suites](https://docs.greatexpectations.io/en/latest/reference/core_concepts.html#expectations), to validate your data as part of your continuous integration workflow.
-- Generate [Data Docs](https://docs.greatexpectations.io/en/latest/reference/core_concepts/data_docs.html#data-docs) and [Profiling](https://docs.greatexpectations.io/en/latest/reference/core_concepts/profiling.html) that allow you to troubleshoot failed checkpoints or investigate data.
-- Built-in support to deploy Docs to [Netlify](https://www.netlify.com/), which is useful to preview changes in pull requests.
-- Composability with other Actions that allow you to deploy Data Docs to any location, or customize your workflows.
+- Generate [Data Docs](https://docs.greatexpectations.io/en/latest/reference/core_concepts/data_docs.html#data-docs) and [Profiling](https://docs.greatexpectations.io/en/latest/reference/core_concepts/profiling.html) and serve them on a static site generator like GitHub Pages or platform like [Netlify](https://www.netlify.com/).
+- More information on how you can use this action can be found in the [Use Cases](#use-cases).
 
 # Table of Contents
 
