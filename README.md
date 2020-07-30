@@ -1,6 +1,6 @@
 ![](https://github.com/superconductive/great_expectations_action/workflows/Action%20Build/badge.svg) ![](https://github.com/superconductive/great_expectations_action/workflows/PR%20Comment/badge.svg) ![](https://github.com/superconductive/great_expectations_action/workflows/PR%20Push/badge.svg) [![MLOps](https://img.shields.io/badge/MLOps-black.svg?logo=github&?logoColor=blue)](https://mlops-github.com)
 
- <h1><img src="https://github.com/superconductive/great_expectations_action/blob/master/ge-logo.png" width="100" height="100">Great Expectations GitHub Action</h1>
+ <h1><img src="https://github.com/superconductive/great_expectations_action/blob/main/ge-logo.png" width="100" height="100">Great Expectations GitHub Action</h1>
 
 This Action allows you to validate and profile your data with [Great Expectations](https://greatexpectations.io/).  From [the docs](https://docs.greatexpectations.io/en/latest/):
 
@@ -59,11 +59,11 @@ jobs:
 
       # Clone the contents of the repository
     - name: Copy Repository Contents
-      uses: actions/checkout@master
+      uses: actions/checkout@main
 
       # Run Great Expectations and deploy Data Docs to Netlify
     - name: Run Great Expectation Checkpoints
-      uses: superconductive/great_expectations_action@master
+      uses: superconductive/great_expectations_action@main
       continue-on-error: true
       with:
         CHECKPOINTS: "passing_checkpoint,failing_checkpoint"
@@ -131,7 +131,7 @@ jobs:
 
       # Clone the contents of the repository at the SHA fetched in the previous step
     - name: Copy The PR's Branch Repository Contents
-      uses: actions/checkout@master
+      uses: actions/checkout@main
       with:
         ref: ${{ steps.chatops.outputs.SHA }}
 
@@ -139,7 +139,7 @@ jobs:
     - name: run great expectation checkpoints
       id: ge
       continue-on-error: true
-      uses: superconductive/great_expectations_action@master
+      uses: superconductive/great_expectations_action@main
       with:
         CHECKPOINTS: "passing_checkpoint,failing_checkpoint"
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
