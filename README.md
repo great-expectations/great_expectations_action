@@ -47,7 +47,7 @@ This Action provides the following features:
 4. **Run on code change.**
     - Use this action as CI/CD for data and ML pipelines that runs when PRs are submitted.
 5. **A lightweight DAG runner**
-    - This action can be triggered on events discussed above, manually or on a schedule. As long as your datasources are configured and accessible, you can get the benefits of data quality testing without integrating Great Expectations directly into your pipelines.
+    - This action is not limited to running in response to code change or other activity on GitHub. You can also run this action [manually](https://github.blog/changelog/2020-07-06-github-actions-manual-triggers-with-workflow_dispatch/) or [on a schedule](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#onschedule). As long as your data sources are configured and accessible, you can get the benefits of data quality testing without integrating Great Expectations directly into your pipelines.
 
 # Demo
 
