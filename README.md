@@ -19,6 +19,7 @@ This Action provides the following features:
 <!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
 - [Demo](#demo)
+- [Use Cases](#use-cases)
 - [Usage](#usage)
 	- [Example 1 (Simple): Run Great Expectations And Provide Links To Docs](#example-1-simple-run-great-expectations-and-provide-links-to-docs)
 	- [Example 2 (Advanced): Trigger Data Docs Generation With A PR Comment](#example-2-advanced-trigger-data-docs-generation-with-a-pr-comment)
@@ -34,6 +35,19 @@ This Action provides the following features:
 
 <!-- /TOC -->
 
+# Use Cases
+
+1. **CI for your data.**
+    - GitHub is a natural platform to discuss fixes as issues arise. This action can speed up conversations by presenting data docs reports that make it easy to see how your data has changed.
+2. **MLOps - Retraining ML models.**
+    - Great Expectations can be used to detect when your live prediction data has drifted from your training data. Not only does this protect you from misbehaving models, it also can be used to determine when models need to be retrained.
+    - In addition to checking model input, Great Expectations can be used to check model output.
+3. **Integration testing with static data fixtures.**
+    - Many data pipeline and ML projects use static data fixtures for unit or integration tests. These test suites can be expressed as Great Expectations suites. Then each time you submit a PR not only will you receive a pass/fail CI check you'll receive a visual data report on how your tests performed.
+4. **Run on code change.**
+    - Use this action as CI/CD for data and ML pipelines that runs when PRs are submitted.
+5. **A lightweight DAG runner**
+    - This action can be triggered on events discussed above, manually or on a schedule. As long as your datasources are configured and accessible, you can get the benefits of data quality testing without integrating Great Expectations directly into your pipelines.
 
 # Demo
 
