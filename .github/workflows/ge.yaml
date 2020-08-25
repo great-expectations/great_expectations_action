@@ -40,8 +40,8 @@ jobs:
         NU: ${{ steps.ge.outputs.netlify_docs_url }}
         CF: ${{ steps.ge.outputs.checkpoint_failure_flag }}
         
-     - name: emit event
-       run: echo ${{ github.event_name }}
+    - name: emit event
+      run: echo ${{ github.event_name }}
         
   publish-action:
     needs: test-local-action
