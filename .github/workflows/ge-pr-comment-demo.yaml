@@ -5,7 +5,7 @@ on: [issue_comment]
 jobs:
   demo-pr:
     env:
-      GH_PAT: ${{secrets.GITHUB_TOKEN}}
+      GH_PAT: ${{ secrets.GITHUB_TOKEN }}
     # Check that a comment with word '/data-docs' is made on pull request (not an issue).
     if: | 
       (github.event.issue.pull_request != null) &&
@@ -18,7 +18,7 @@ jobs:
       id: chatops
       uses: actions/github-script@v1
       with:
-        github-token: ${{secrets.GITHUB_TOKEN}}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
           // Get the branch name
           github.pulls.get({
@@ -41,7 +41,7 @@ jobs:
     - name: run great expectation checkpoints
       id: ge
       continue-on-error: true
-      uses: superconductive/great_expectations_action@master
+      uses: superconductive/great_expectations_action@main
       with:
         CHECKPOINTS: "npi.pass,npi.fail"
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
@@ -62,3 +62,12 @@ jobs:
       env:
         URL: ${{ steps.ge.outputs.netlify_docs_url }}
         SHA: ${{ steps.chatops.outputs.SHA }}  
+
+    - name: Emit error if detected
+      run: |
+        if [[ $OUTCOME == 'failure' ]]; then
+            echo "GE Checkpoint Step Failed";
+            exit 1;
+        fi
+      env:
+        OUTCOME: ${{ steps.ge.outcome }}

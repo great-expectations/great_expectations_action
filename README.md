@@ -1,7 +1,6 @@
 ![](https://github.com/superconductive/great_expectations_action/workflows/Action%20Build/badge.svg) ![](https://github.com/superconductive/great_expectations_action/workflows/PR%20Comment/badge.svg) ![](https://github.com/superconductive/great_expectations_action/workflows/PR%20Push/badge.svg) [![MLOps](https://img.shields.io/badge/MLOps-black.svg?logo=github&?logoColor=blue)](https://mlops-github.com)
 
-
- <h1><img src="https://github.com/superconductive/great_expectations_action/blob/master/ge-logo.png" width="100" height="100">Great Expectations GitHub Action</h1>
+ <h1><img src="https://github.com/superconductive/great_expectations_action/blob/main/ge-logo.png" width="100" height="100">Great Expectations GitHub Action</h1>
 
 This Action allows you to validate and profile your data with [Great Expectations](https://greatexpectations.io/).  From [the docs](https://docs.greatexpectations.io/en/latest/):
 
@@ -11,15 +10,15 @@ This Action allows you to validate and profile your data with [Great Expectation
 This Action provides the following features:
 
 - Run [ Expectations Suites](https://docs.greatexpectations.io/en/latest/reference/core_concepts.html#expectations), to validate your data as part of your continuous integration workflow.
-- Generate [Data Docs](https://docs.greatexpectations.io/en/latest/reference/core_concepts/data_docs.html#data-docs) and [Profiling](https://docs.greatexpectations.io/en/latest/reference/core_concepts/profiling.html) that allow you to troubleshoot failed checkpoints or investigate data.
-- Built-in support to deploy Docs to [Netlify](https://www.netlify.com/), which is useful to preview changes in pull requests.
-- Composability with other Actions that allow you to deploy Data Docs to any location, or customize your workflows.
+- Generate [Data Docs](https://docs.greatexpectations.io/en/latest/reference/core_concepts/data_docs.html#data-docs) and [Profiling](https://docs.greatexpectations.io/en/latest/reference/core_concepts/profiling.html) and serve them on a static site generator like GitHub Pages or platform like [Netlify](https://www.netlify.com/).
+- More information on how you can use this action can be found in the [Use Cases](#use-cases).
 
 # Table of Contents
 
 <!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
 - [Demo](#demo)
+- [Use Cases](#use-cases)
 - [Usage](#usage)
 	- [Example 1 (Simple): Run Great Expectations And Provide Links To Docs](#example-1-simple-run-great-expectations-and-provide-links-to-docs)
 	- [Example 2 (Advanced): Trigger Data Docs Generation With A PR Comment](#example-2-advanced-trigger-data-docs-generation-with-a-pr-comment)
@@ -35,6 +34,19 @@ This Action provides the following features:
 
 <!-- /TOC -->
 
+# Use Cases
+
+1. **CI for your data.**
+    - GitHub is a natural platform to discuss fixes as issues arise. This action can speed up conversations by presenting data docs reports that make it easy to see how your data has changed.
+2. **MLOps - Retraining ML models.**
+    - Great Expectations can be used to detect when your live prediction data has drifted from your training data. Not only does this protect you from misbehaving models, it also can be used to determine when models need to be retrained.
+    - In addition to checking model input, Great Expectations can be used to check model output.
+3. **Integration testing with static data fixtures.**
+    - Many data pipeline and ML projects use static data fixtures for unit or integration tests. These test suites can be expressed as Great Expectations suites. Then each time you submit a PR not only will you receive a pass/fail CI check you'll receive a visual data report on how your tests performed.
+4. **Run on code change.**
+    - Use this action as CI/CD for data and ML pipelines that runs when PRs are submitted.
+5. **A lightweight DAG runner**
+    - This action is not limited to running in response to code change or other activity on GitHub. You can also run this action [manually](https://github.blog/changelog/2020-07-06-github-actions-manual-triggers-with-workflow_dispatch/) or [on a schedule](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#onschedule). As long as your data sources are configured and accessible, you can get the benefits of data quality testing without integrating Great Expectations directly into your pipelines.
 
 # Demo
 
@@ -60,11 +72,11 @@ jobs:
 
       # Clone the contents of the repository
     - name: Copy Repository Contents
-      uses: actions/checkout@master
+      uses: actions/checkout@main
 
       # Run Great Expectations and deploy Data Docs to Netlify
     - name: Run Great Expectation Checkpoints
-      uses: superconductive/great_expectations_action@master
+      uses: superconductive/great_expectations_action@main
       continue-on-error: true
       with:
         CHECKPOINTS: "passing_checkpoint,failing_checkpoint"
@@ -132,7 +144,7 @@ jobs:
 
       # Clone the contents of the repository at the SHA fetched in the previous step
     - name: Copy The PR's Branch Repository Contents
-      uses: actions/checkout@master
+      uses: actions/checkout@main
       with:
         ref: ${{ steps.chatops.outputs.SHA }}
 
@@ -140,7 +152,7 @@ jobs:
     - name: run great expectation checkpoints
       id: ge
       continue-on-error: true
-      uses: superconductive/great_expectations_action@master
+      uses: superconductive/great_expectations_action@main
       with:
         CHECKPOINTS: "passing_checkpoint,failing_checkpoint"
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
