@@ -38,7 +38,10 @@ jobs:
         FC: ${{ steps.ge.outputs.failing_checkpoints }}
         PC: ${{ steps.ge.outputs.passing_checkpoints }}
         NU: ${{ steps.ge.outputs.netlify_docs_url }}
-        CF: ${{ steps.ge.outputs.checkpoint_failure_flag }}         
+        CF: ${{ steps.ge.outputs.checkpoint_failure_flag }}
+        
+     - name: emit event
+       run: echo ${{ github.event }}
         
   publish-action:
     needs: test-local-action
