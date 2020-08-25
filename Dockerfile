@@ -1,4 +1,4 @@
-FROM sctay/great_expectations_proof_of_concept
+FROM greatexpectations/great_expectations:python-3.7-buster-ge-0.12.0
 
 RUN apt-get install curl nodejs -y
 RUN curl -L https://npmjs.org/install.sh | bash
