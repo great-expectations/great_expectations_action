@@ -5,7 +5,7 @@ on:
   workflow_dispatch: #allows you to trigger manually
   push:
     branch:
-      - master
+      - main
   pull_request:
 
 jobs:     
