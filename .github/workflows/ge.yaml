@@ -41,12 +41,12 @@ jobs:
         CF: ${{ steps.ge.outputs.checkpoint_failure_flag }}
         
      - name: emit event
-       run: echo ${{ github.event }}
+       run: echo ${{ github.event_name }}
         
   publish-action:
     needs: test-local-action
     runs-on: ubuntu-latest
-    if: github.event == 'push' || github.event == 'workflow_dispatch'
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     steps:
 
     - name: Copy Repository Contents
