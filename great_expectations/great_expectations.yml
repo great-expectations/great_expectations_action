@@ -66,14 +66,6 @@ validation_operators:
     - name: update_data_docs
       action:
         class_name: UpdateDataDocsAction
-    - name: create_github_issue
-      action:
-        class_name: GHIssue
-        module_name: issue
-        issue_title: "GE Expectation Suite Failed"
-        token: ${GH_PAT}
-        repo_owner: "superconductive"
-        repo_name: "great_expectations_action"
       # - name: send_slack_notification_on_validation_result
       #   action:
       #     class_name: SlackNotificationAction
