@@ -29,4 +29,5 @@ branding:
   icon: 'check-circle'
 runs:
   using: 'docker'
-  image: 'Dockerfile'
+  image: 'docker://greatexpectations/greatexpectations-action'
+
