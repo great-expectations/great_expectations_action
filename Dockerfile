@@ -1,6 +1,6 @@
-FROM sctay/great_expectations_proof_of_concept
+FROM greatexpectations/great_expectations:python-3.7-buster-ge-0.12.0
 
-RUN apt-get install curl nodejs -y
+RUN apt-get update && apt-get install curl nodejs -y
 RUN curl -L https://npmjs.org/install.sh | bash
 RUN npm install -g netlify-cli
 ENV NODE_PATH="/usr/lib/node_modules"

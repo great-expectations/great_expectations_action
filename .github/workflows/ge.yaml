@@ -1,7 +1,12 @@
 # A test to see if the GitHub Action is working
 # Used for maintainers of this Action.
 name: Action Build
-on: pull_request
+on:
+  workflow_dispatch: #allows you to trigger manually
+  push:
+    branch:
+      - master
+  pull_request:
 
 jobs:     
   test-local-action:
@@ -63,4 +68,26 @@ jobs:
         FC: ${{ steps.ge.outputs.failing_checkpoints }}
         PC: ${{ steps.ge.outputs.passing_checkpoints }}
         NU: ${{ steps.ge.outputs.netlify_docs_url }}
-        CF: ${{ steps.ge.outputs.checkpoint_failure_flag }}    
+        CF: ${{ steps.ge.outputs.checkpoint_failure_flag }} 
+        
+  publish-action:
+    needs: test-local-action
+    runs-on: ubuntu-latest
+    if: github.event == 'push' || github.event == 'workflow_dispatch'
+    steps:
+
+    - name: Copy Repository Contents
+      uses: actions/checkout@v2  
+
+    - name: DockerHub Login
+      run: |
+        echo ${PASSWORD} | docker login -u $USERNAME --password-stdin
+      env:
+        USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+        PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+    - name: Build and push container
+      run: |
+        IMAGE_NAME="greatexpectations/greatexpectations-action"
+        docker build -t ${IMAGE_NAME} -t ${IMAGE_NAME}:$(date +%F) -f nbdev-docs/Dockerfile nbdev-docs
+        docker push ${IMAGE_NAME}
