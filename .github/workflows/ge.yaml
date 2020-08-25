@@ -62,7 +62,7 @@ jobs:
     - name: Build and push container
       run: |
         IMAGE_NAME="greatexpectations/greatexpectations-action"
-        docker build -t ${IMAGE_NAME} -t ${IMAGE_NAME}:$(date +%F)
+        docker build -t ${IMAGE_NAME} -t ${IMAGE_NAME}:$(date +%F) .
         docker push ${IMAGE_NAME}
   
   test-hosted-action:
