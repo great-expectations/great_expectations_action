@@ -10,6 +10,9 @@ inputs:
   NETLIFY_SITE_ID:
     description: A Netlify site id.
     require: false
+  GE_HOME:
+    description: Path relative to the root of your repository where the great_expectations directory exists.  If not supplied defaults to the root.
+    require: false
   DEBUG:
     description: Setting this input to any value will allow the Action to exit with a status code of 0 even if a checkpoint fails.  This is used by maintainers of this Action for testing and debugging.
     require: false
@@ -29,5 +32,4 @@ branding:
   icon: 'check-circle'
 runs:
   using: 'docker'
-  image: 'docker://greatexpectations/greatexpectations-action'
-
+  image: 'Dockerfile'
