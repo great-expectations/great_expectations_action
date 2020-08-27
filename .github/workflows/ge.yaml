@@ -45,10 +45,9 @@ jobs:
       run: echo ${{ github.event_name }}
         
   publish-action:
-    if: 1 == 2
     needs: test-local-action
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    if: 1 == 2 && github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     steps:
 
     - name: Copy Repository Contents
