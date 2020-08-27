@@ -8,6 +8,8 @@ function check_env() {
     fi
 }
 
+great_expectations suite list || echo "::error::An error occured while loading your great expectations project. See action logs for more detail."
+
 check_env "INPUT_CHECKPOINTS"
 unset GE_HOME
 
