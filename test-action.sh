@@ -3,14 +3,22 @@
 
 docker build -t test-ge-action .
 
-INPUT_CHECKPOINTS="npi.pass,npi.fail"
-
-docker run -e INPUT_CHECKPOINTS=$INPUT_CHECKPOINTS \
+docker run -e INPUT_CHECKPOINTS="npi.pass,npi.fail" \
 -e INPUT_NETLIFY_AUTH_TOKEN=$NETLIFY_AUTH_TOKEN \
 -e INPUT_NETLIFY_SITE_ID=$NETLIFY_SITE_ID \
+-e INPUT_GE_HOME="test" \
 -e GITHUB_REPOSITORY="$GITHUB_REPOSITORY" \
--v $PWD/test:/app test-ge-action
+-v $PWD:/usr/app/great_expectations test-ge-action
 
-# cleanup
+# cleanupls
 rm -rf great_expectations/gh_action_site_*
 rm -rf great_expectations/uncommitted/
+
+
+# docker run -e INPUT_CHECKPOINTS="npi.pass,npi.fail" \
+# -e INPUT_NETLIFY_AUTH_TOKEN=$NETLIFY_AUTH_TOKEN \
+# -e INPUT_NETLIFY_SITE_ID=$NETLIFY_SITE_ID \
+# -e INPUT_GE_HOME="test" \
+# -e GITHUB_REPOSITORY="$GITHUB_REPOSITORY" \
+# -v $PWD:/usr/app/great_expectations \
+# -it --entrypoint /bin/bash test-ge-action

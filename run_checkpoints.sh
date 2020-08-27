@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 # Validate That Required Inputs Were Supplied
 function check_env() {
     if [ -z $(eval echo "\$$1") ]; then
@@ -11,6 +9,11 @@ function check_env() {
 }
 
 check_env "INPUT_CHECKPOINTS"
+unset GE_HOME
+
+if [[ ! -z "$INPUT_GE_HOME" ]]; then
+    cd ${INPUT_GE_HOME}
+fi
 
 # Loop through checkpoints
 STATUS=0
