@@ -66,34 +66,3 @@ jobs:
         docker build -t ${IMAGE_NAME} -t ${IMAGE_NAME}:$(date +%F) .
         docker push ${IMAGE_NAME}
   
-  test-hosted-action:
-    runs-on: ubuntu-latest
-    needs: publish-action
-    steps:
-
-    - name: Copy Repository Contents
-      uses: actions/checkout@main
-
-    - name: execute local action
-      continue-on-error: true
-      uses: superconductive/great_expectations_action@main
-      with:
-        CHECKPOINTS: "npi.pass,npi.fail"
-        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        DEBUG: true
-        GE_HOME: 'test'
-          
-    - name: print outputs
-      run: |
-        echo "action_docs_location: $LOC"
-        echo "failing_checkpoints: $FC"
-        echo "passing_checkpoints: $PC"
-        echo "netlify_docs_url: $NU"
-        echo "checkpoint_failure_flag: $CF"
-      env:
-        LOC: ${{ steps.ge.outputs.action_docs_location }}
-        FC: ${{ steps.ge.outputs.failing_checkpoints }}
-        PC: ${{ steps.ge.outputs.passing_checkpoints }}
-        NU: ${{ steps.ge.outputs.netlify_docs_url }}
-        CF: ${{ steps.ge.outputs.checkpoint_failure_flag }} 
