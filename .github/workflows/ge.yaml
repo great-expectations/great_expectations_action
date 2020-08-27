@@ -4,9 +4,6 @@ name: Action Build
 on:
   workflow_dispatch: #allows you to trigger manually
   push:
-    branch:
-      - main
-  pull_request:
 
 jobs:     
   test-local-action:
