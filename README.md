@@ -79,7 +79,7 @@ jobs:
       uses: superconductive/great_expectations_action@main
       continue-on-error: true
       with:
-        CHECKPOINTS: "passing_checkpoint,failing_checkpoint"
+        CHECKPOINTS: "npi.pass,npi.fail"
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
     
@@ -154,7 +154,7 @@ jobs:
       continue-on-error: true
       uses: superconductive/great_expectations_action@main
       with:
-        CHECKPOINTS: "passing_checkpoint,failing_checkpoint"
+        CHECKPOINTS: "npi.pass,npi.fail"
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
