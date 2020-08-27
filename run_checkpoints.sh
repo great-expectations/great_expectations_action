@@ -15,6 +15,8 @@ if [[ ! -z "$INPUT_GE_HOME" ]]; then
     cd ${INPUT_GE_HOME}
 fi
 
+great_expectations suite list || echo "::error::An error occured while loading your great expectations project. See action logs for more detail." && exit 1;
+
 # Loop through checkpoints
 STATUS=0
 IFS=','
