@@ -43,7 +43,7 @@ jobs:
       continue-on-error: true
       uses: superconductive/great_expectations_action@main
       with:
-        CHECKPOINTS: "npi.pass,npi.fail"
+        CHECKPOINTS: "npi.pass" # "npi.pass,npi.fail"
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         GE_HOME: 'test'
