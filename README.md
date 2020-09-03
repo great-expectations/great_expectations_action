@@ -66,7 +66,7 @@ name: PR Push
 on: pull_request
 
 jobs:
-  test-hosted-action:
+  great_expectations_validation:
     runs-on: ubuntu-latest
     steps:
 
@@ -94,11 +94,11 @@ jobs:
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: `Failed Great Expectations checkpoint(s) \`${FAILED_CHECKPOIINTS}\` detected for: ${process.env.GITHUB_SHA}.  Corresponding Data Docs have been generated and can be viewed [here](${process.env.URL}).`
+            body: `Failed Great Expectations checkpoint(s) \`${FAILED_CHECKPOINTS}\` detected for: ${process.env.GITHUB_SHA}.  Corresponding Data Docs have been generated and can be viewed [here](${process.env.URL}).`
             })
       env:
         URL: ${{ steps.ge.outputs.docs_url }}
-        FAILED_CHECKPOIINTS: ${{ steps.ge.outputs.failing_checkpoints }}
+        FAILED_CHECKPOINTS: ${{ steps.ge.outputs.failing_checkpoints }}
 ```
 
 ## Example 2 (Advanced): Trigger Data Docs Generation With A PR Comment
