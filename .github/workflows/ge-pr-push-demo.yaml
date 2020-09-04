@@ -49,9 +49,9 @@ jobs:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
             if (process.env.FAILURE_FLAG == 1 ) {
-              let msg = `test of input: ${{ matrix.checkpoints }}\n\nFailed Great Expectations checkpoint(s) \`${process.env.FAILED_CHECKPOINTS}\` detected for: ${process.env.SHA}.  Corresponding Data Docs have been generated and can be viewed [here](${process.env.URL}).`;
+              msg = `test of input: ${{ matrix.checkpoints }}\n\nFailed Great Expectations checkpoint(s) \`${process.env.FAILED_CHECKPOINTS}\` detected for: ${process.env.SHA}.  Corresponding Data Docs have been generated and can be viewed [here](${process.env.URL}).`;
             } else {
-              let msg = `test of input: ${{ matrix.checkpoints }}\n\nAll Checkpoints for: ${process.env.SHA} have passed.  Corresponding Data Docs have been generated and can be viewed [here](${process.env.URL}).`;
+              msg = `test of input: ${{ matrix.checkpoints }}\n\nAll Checkpoints for: ${process.env.SHA} have passed.  Corresponding Data Docs have been generated and can be viewed [here](${process.env.URL}).`;
             }
             console.log(`Message to be emitted: ${msg}`);
             github.issues.createComment({
