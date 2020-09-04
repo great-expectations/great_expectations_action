@@ -33,7 +33,7 @@ jobs:
     - name: Run Great Expectation Checkpoints
       id: ge
       uses: superconductive/great_expectations_action@main
-      continue-on-error: true
+      # continue-on-error: true
       with:
         CHECKPOINTS: ${{ matrix.checkpoints }}
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
