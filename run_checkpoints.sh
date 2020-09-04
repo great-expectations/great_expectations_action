@@ -51,7 +51,9 @@ DOCS_LOC=`cat _temp_greatexpectations_action_docs_location_dir.txt`
 # Emit Failing and Passing Checkpoints as output variables
 export FAILING_CHECKPOINTS="${FAILING_CHECKPOINTS}"
 echo "::set-output name=FAILING_CHECKPOINTS::${FAILING_CHECKPOINTS}"
+echo "FAILING_CHECKPOINTS: ${FAILING_CHECKPOINTS}"
 echo "::set-output name=PASSING_CHECKPOINTS::${PASSING_CHECKPOINTS}"
+echo "PASSING_CHECKPOINTS: ${PASSING_CHECKPOINTS}"
 
 # Optionally launch docs on Netlify
 if [[ ! -z "$INPUT_NETLIFY_AUTH_TOKEN" ]] && [[ ! -z "$INPUT_NETLIFY_SITE_ID" ]]; 
@@ -72,6 +74,7 @@ if [[ ! -z "$INPUT_NETLIFY_AUTH_TOKEN" ]] && [[ ! -z "$INPUT_NETLIFY_SITE_ID" ]]
 
         ## Verify URL exists and emit it as an output variable
         [[  -z "$DOCS_URL" ]] && { echo "Variable DOCS_URL is empty" ; exit 1; }
+        echo "NETLIFY_DOCS_URL: ${DOCS_URL}"
         echo "::set-output name=NETLIFY_DOCS_URL::${DOCS_URL}"
     else
         echo "Netlify Deploy Skipped."
