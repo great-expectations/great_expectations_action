@@ -34,7 +34,7 @@ jobs:
       uses: superconductive/great_expectations_action@main
       continue-on-error: true
       with:
-        CHECKPOINTS: ${{ matrix.cc }}
+        CHECKPOINTS: ${{ matrix.checkpoints }}
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         GE_HOME: 'test'
@@ -51,7 +51,7 @@ jobs:
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: `test of input: ${{ matrix.cc }}\n\nFailed Great Expectations checkpoint(s) \`${process.env.FAILED_CHECKPOINTS}\` detected for: ${process.env.SHA}.  Corresponding Data Docs have been generated and can be viewed [here](${process.env.URL}).`
+            body: `test of input: ${{ matrix.checkpoints }}\n\nFailed Great Expectations checkpoint(s) \`${process.env.FAILED_CHECKPOINTS}\` detected for: ${process.env.SHA}.  Corresponding Data Docs have been generated and can be viewed [here](${process.env.URL}).`
             })
       env:
         URL: "${{ steps.ge.outputs.netlify_docs_url }}"
@@ -68,7 +68,7 @@ jobs:
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: `test of input: ${{ matrix.cc }}\n\nAll Checkpoints for: ${process.env.SHA} have passed.  Corresponding Data Docs have been generated and can be viewed [here](${process.env.URL}).`
+            body: `test of input: ${{ matrix.checkpoints }}\n\nAll Checkpoints for: ${process.env.SHA} have passed.  Corresponding Data Docs have been generated and can be viewed [here](${process.env.URL}).`
             })
       env:
         URL: "${{ steps.ge.outputs.netlify_docs_url }}"
