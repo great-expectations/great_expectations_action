@@ -3,12 +3,9 @@ name: PR Push
 on: pull_request
 
 jobs:
-  test-hosted-action:
-    env:
-      GH_PAT: ${{ secrets.GITHUB_TOKEN }} # you don't actually use this
+  see-payload:
     runs-on: ubuntu-latest
     steps:
-
     - name: see payload
       run: |
         echo "$PAYLOAD"
@@ -19,6 +16,13 @@ jobs:
       with:
         name: payload.json
         path: ${{ github.event_path }}
+ 
+  test-action:
+    runs-on: ubuntu-latest
+    strategy:    
+      matrix:
+        checkpoints: ['npi.pass', 'npi.fail', 'npi.pass,npi.fail', 'npi.fail,npi-pass']
+    steps:
 
       # Clone the contents of the repository
     - name: Copy Repository Contents
@@ -30,7 +34,7 @@ jobs:
       uses: superconductive/great_expectations_action@main
       continue-on-error: true
       with:
-        CHECKPOINTS: "npi.pass"
+        CHECKPOINTS: ${{ matrix.cc }}
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         GE_HOME: 'test'
@@ -47,13 +51,12 @@ jobs:
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: `Failed Great Expectations checkpoint(s) \`${process.env.FAILED_CHECKPOINTS}\` detected for: ${process.env.SHA}.  Corresponding Data Docs have been generated and can be viewed [here](${process.env.URL}).`
+            body: `test of input: ${{ matrix.cc }}\n\nFailed Great Expectations checkpoint(s) \`${process.env.FAILED_CHECKPOINTS}\` detected for: ${process.env.SHA}.  Corresponding Data Docs have been generated and can be viewed [here](${process.env.URL}).`
             })
       env:
         URL: "${{ steps.ge.outputs.netlify_docs_url }}"
         FAILED_CHECKPOINTS: ${{ steps.ge.outputs.failing_checkpoints }}
         SHA: ${{ github.event.after }}
-
 
     - name: Comment on PR Upon Checkpoint Pass
       if: steps.ge.outputs.checkpoint_failure_flag == '0'
@@ -65,7 +68,7 @@ jobs:
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: `All Checkpoints for: ${process.env.SHA} have passed.  Corresponding Data Docs have been generated and can be viewed [here](${process.env.URL}).`
+            body: `test of input: ${{ matrix.cc }}\n\nAll Checkpoints for: ${process.env.SHA} have passed.  Corresponding Data Docs have been generated and can be viewed [here](${process.env.URL}).`
             })
       env:
         URL: "${{ steps.ge.outputs.netlify_docs_url }}"
