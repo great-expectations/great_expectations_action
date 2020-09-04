@@ -46,18 +46,19 @@ jobs:
       # if: steps.ge.outputs.checkpoint_failure_flag == '1'
       uses: actions/github-script@v2
       with:
-        github-token: ${{secrets.GITHUB_TOKEN}}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
             if (process.env.FAILURE_FLAG == 1 ) {
               let msg = `test of input: ${{ matrix.checkpoints }}\n\nFailed Great Expectations checkpoint(s) \`${process.env.FAILED_CHECKPOINTS}\` detected for: ${process.env.SHA}.  Corresponding Data Docs have been generated and can be viewed [here](${process.env.URL}).`;
             } else {
-              let msg = `test of input: ${{ matrix.checkpoints }}\n\nAll Checkpoints for: ${process.env.SHA} have passed.  Corresponding Data Docs have been generated and can be viewed [here](${process.env.URL}).`
+              let msg = `test of input: ${{ matrix.checkpoints }}\n\nAll Checkpoints for: ${process.env.SHA} have passed.  Corresponding Data Docs have been generated and can be viewed [here](${process.env.URL}).`;
             }
+            console.log(`Message to be emitted: ${msg}`);
             github.issues.createComment({
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: `${msg}`
+            body: msg
             })
       env:
         URL: "${{ steps.ge.outputs.netlify_docs_url }}"
