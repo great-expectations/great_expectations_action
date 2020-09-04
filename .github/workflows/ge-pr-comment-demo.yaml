@@ -9,6 +9,10 @@ jobs:
       (github.event.issue.pull_request != null) &&
       contains(github.event.comment.body, '/data-docs')
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false    
+      matrix:
+        checkpoints: ['npi.pass', 'npi.fail', 'npi.pass,npi.fail', 'npi.fail,npi.pass']
     steps:
     
     - name: see payload
@@ -57,7 +61,7 @@ jobs:
         GE_HOME: 'test'
 
     # Comment on PR with link to deployed Data Docs on Netlify
-    - name: Comment on PR
+    - name: Comment on PR for ${{ matrix.checkpoints }}
       if: ${{ always() }}
       uses: actions/github-script@v2
       with:
