@@ -54,7 +54,7 @@ TODO: insert GIF here
 
 # Usage
 
-## Example 1 (Simple): Run Great Expectations And Provide Links To Docs
+## Example 1 (Simple): Run Great Expectations And Provide Links To Docs On Failure
 
 This example triggers Great Expectations to run everytime a pull request is opened, reopened, or a push is made to a pull request.  Furthermore, if a checkpoint fails a comment with a link to the Data Docs hosted on Netlify is provided.
 
@@ -76,10 +76,10 @@ jobs:
 
       # Run Great Expectations and deploy Data Docs to Netlify
     - name: Run Great Expectation Checkpoints
+      id: ge
       uses: superconductive/great_expectations_action@main
-      continue-on-error: true
       with:
-        CHECKPOINTS: "npi.pass,npi.fail"
+        CHECKPOINTS: ${{ matrix.checkpoints }}
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
     
@@ -90,15 +90,20 @@ jobs:
       with:
         github-token: ${{secrets.GITHUB_TOKEN}}
         script: |
+            msg = `Failed Great Expectations checkpoint(s) \`${process.env.FAILED_CHECKPOINTS}\` detected for: ${process.env.SHA}.  Corresponding Data Docs have been generated and can be viewed [here](${process.env.URL}).`;
+
+            console.log(`Message to be emitted: ${msg}`);
             github.issues.createComment({
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: `Failed Great Expectations checkpoint(s) \`${FAILED_CHECKPOINTS}\` detected for: ${process.env.GITHUB_SHA}.  Corresponding Data Docs have been generated and can be viewed [here](${process.env.URL}).`
+            body: msg
             })
       env:
-        URL: ${{ steps.ge.outputs.docs_url }}
+        URL: "${{ steps.ge.outputs.netlify_docs_url }}"
         FAILED_CHECKPOINTS: ${{ steps.ge.outputs.failing_checkpoints }}
+        SHA: ${{ github.sha }}
+        FAILURE_FLAG: ${{ steps.ge.outputs.checkpoint_failure_flag }}
 ```
 
 ## Example 2 (Advanced): Trigger Data Docs Generation With A PR Comment
@@ -124,12 +129,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      # Get the HEAD SHA of the pull request that has been commented on.
+     # Get the HEAD SHA of the pull request that has been commented on.
     - name: Fetch context about the PR that has been commented on
       id: chatops
       uses: actions/github-script@v1
       with:
-        github-token: ${{secrets.GITHUB_TOKEN}}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
           // Get the branch name
           github.pulls.get({
@@ -142,37 +147,45 @@ jobs:
             console.log(`::set-output name=SHA::${SHA}`)
           })
 
-      # Clone the contents of the repository at the SHA fetched in the previous step
+    # Clone the contents of the repository at the SHA fetched in the previous step
     - name: Copy The PR's Branch Repository Contents
       uses: actions/checkout@main
       with:
         ref: ${{ steps.chatops.outputs.SHA }}
 
-      # Run Great Expectation checkpoints and deploy Data Docs to Netlify
-    - name: run great expectation checkpoints
+    # Run Great Expectation checkpoints and deploy Data Docs to Netlify
+    - name: Run Great Expectation Checkpoints
       id: ge
-      continue-on-error: true
       uses: superconductive/great_expectations_action@main
       with:
-        CHECKPOINTS: "npi.pass,npi.fail"
+        CHECKPOINTS: ${{ matrix.checkpoints }}
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
-      # Comment on PR with link to deployed Data Docs on Netlify
+    # Comment on PR with link to deployed Data Docs on Netlify
     - name: Comment on PR
+      if: ${{ always() }}
       uses: actions/github-script@v2
       with:
-        github-token: ${{secrets.GITHUB_TOKEN}}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
+            if (process.env.FAILURE_FLAG == 1 ) {
+              msg = `test of input: ${{ matrix.checkpoints }}\n\nFailed Great Expectations checkpoint(s) \`${process.env.FAILED_CHECKPOINTS}\` detected for: ${process.env.SHA}.  Corresponding Data Docs have been generated and can be viewed [here](${process.env.URL}).`;
+            } else {
+              msg = `test of input: ${{ matrix.checkpoints }}\n\nAll Checkpoints for: ${process.env.SHA} have passed.  Corresponding Data Docs have been generated and can be viewed [here](${process.env.URL}).`;
+            }
+            console.log(`Message to be emitted: ${msg}`);
             github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `Great Expectations Data Docs have been generated for SHA: ${process.env.SHA} and can be viewed [here](${process.env.URL}).`
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: msg
             })
       env:
-        URL: ${{ steps.ge.outputs.docs_url }}
-        SHA: ${{ steps.chatops.outputs.SHA }}  
+        URL: "${{ steps.ge.outputs.netlify_docs_url }}"
+        FAILED_CHECKPOINTS: ${{ steps.ge.outputs.failing_checkpoints }}
+        SHA: ${{ steps.chatops.outputs.SHA }}
+        FAILURE_FLAG: ${{ steps.ge.outputs.checkpoint_failure_flag }}
 ```
 
 
