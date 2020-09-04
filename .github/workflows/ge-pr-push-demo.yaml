@@ -14,6 +14,11 @@ jobs:
         echo "$PAYLOAD"
       env:
         PAYLOAD: ${{ toJSON(github.event) }}
+    - name: store payload
+      uses: actions/upload-artifact@v2
+      with:
+        name: payload.json
+        path: ${{ github.event_path }}
 
       # Clone the contents of the repository
     - name: Copy Repository Contents

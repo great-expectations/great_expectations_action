@@ -4,15 +4,26 @@ on: [issue_comment]
 
 jobs:
   demo-pr:
-    env:
-      GH_PAT: ${{ secrets.GITHUB_TOKEN }}
+#     env:
+#       GH_PAT: ${{ secrets.GITHUB_TOKEN }}
     # Check that a comment with word '/data-docs' is made on pull request (not an issue).
     if: | 
       (github.event.issue.pull_request != null) &&
       contains(github.event.comment.body, '/data-docs')
     runs-on: ubuntu-latest
     steps:
-
+    
+    - name: see payload
+      run: |
+        echo "$PAYLOAD"
+      env:
+        PAYLOAD: ${{ toJSON(github.event) }}
+    - name: store payload
+      uses: actions/upload-artifact@v2
+      with:
+        name: payload.json
+        path: ${{ github.event_path }}
+ 
       # Get the HEAD SHA of the pull request that has been commented on.
     - name: Fetch context about the PR that has been commented on
       id: chatops
@@ -43,7 +54,7 @@ jobs:
       continue-on-error: true
       uses: superconductive/great_expectations_action@main
       with:
-        CHECKPOINTS: "npi.pass" # "npi.pass,npi.fail"
+        CHECKPOINTS: "npi.pass,npi.fail"
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         GE_HOME: 'test'
