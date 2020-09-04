@@ -56,7 +56,7 @@ jobs:
       env:
         URL: "${{ steps.ge.outputs.netlify_docs_url }}"
         FAILED_CHECKPOINTS: ${{ steps.ge.outputs.failing_checkpoints }}
-        SHA: ${{ github.event.after }}
+        SHA: ${{ github.sha }}
 
     - name: Comment on PR Upon Checkpoint Pass
       if: steps.ge.outputs.checkpoint_failure_flag == '0'
@@ -72,4 +72,4 @@ jobs:
             })
       env:
         URL: "${{ steps.ge.outputs.netlify_docs_url }}"
-        SHA: ${{ github.event.after }}
+        SHA: ${{ github.sha }}
