@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:    
       matrix:
-        checkpoints: ['npi.pass', 'npi.fail', 'npi.pass,npi.fail', 'npi.fail,npi-pass']
+        checkpoints: ['npi.pass', 'npi.fail', 'npi.pass,npi.fail', 'npi.fail,npi.pass']
     steps:
 
       # Clone the contents of the repository
