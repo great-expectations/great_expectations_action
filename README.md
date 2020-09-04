@@ -103,7 +103,6 @@ jobs:
         URL: "${{ steps.ge.outputs.netlify_docs_url }}"
         FAILED_CHECKPOINTS: ${{ steps.ge.outputs.failing_checkpoints }}
         SHA: ${{ github.sha }}
-        FAILURE_FLAG: ${{ steps.ge.outputs.checkpoint_failure_flag }}
 ```
 
 ## Example 2 (Advanced): Trigger Data Docs Generation With A PR Comment
