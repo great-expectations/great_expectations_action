@@ -50,7 +50,7 @@ This Action provides the following features:
 
 # Demo
 
-TODO: insert GIF here
+![](ge-demo.gif)
 
 # Usage
 
@@ -64,6 +64,10 @@ This example triggers Great Expectations to run everytime a pull request is open
 #Automatically Runs Great Expectation Checkpoints on every push to a PR, and provides links to hosted Data Docs if there an error.
 name: PR Push
 on: pull_request
+env: # credentials to your development database (this is illustrative, can be another data source)
+  DB_HOST: ${{ secrets.DB_HOST }}
+  DB_PASS: ${{ secrets.DB_PASS }}
+  DB_USER: ${{ secrets.DB_USER }} 
 
 jobs:
   great_expectations_validation:
@@ -73,36 +77,45 @@ jobs:
       # Clone the contents of the repository
     - name: Copy Repository Contents
       uses: actions/checkout@main
+    
+    # Execute your data pipeline on development infrastructure.  This is a simplified example where
+    #   we run a local sql file against a remote Postgres development database as the "pipeline". We 
+    #   then test the materialized data from the pipeline with this action.
+    - name: run sql query
+      run: |
+        PGPASSWORD=${DB_PASS} psql -h $DB_HOST -d demo -U $DB_USER -f location_frequency.sql
 
       # Run Great Expectations and deploy Data Docs to Netlify
     - name: Run Great Expectation Checkpoints
       id: ge
       uses: great-expectations/great_expectations_action@main
       with:
-        CHECKPOINTS: ${{ matrix.checkpoints }}
+        CHECKPOINTS: "locations.rds.chk"
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-    
-    # If a checkpoint failed, comment on the PR with a link to the Data Docs hosted on Netlify.
-    - name: Comment on PR Upon Checkpoint Failure
-      if: steps.ge.outputs.checkpoint_failure_flag == '1'
+
+      # Comment on PR with link to deployed Data Docs if there is a failed checkpoint, otherwhise don't comment.
+    - name: Comment on PR 
+      if: ${{ always() }}
       uses: actions/github-script@v2
       with:
-        github-token: ${{secrets.GITHUB_TOKEN}}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
-            msg = `Failed Great Expectations checkpoint(s) \`${process.env.FAILED_CHECKPOINTS}\` detected for: ${process.env.SHA}.  Corresponding Data Docs have been generated and can be viewed [here](${process.env.URL}).`;
-
-            console.log(`Message to be emitted: ${msg}`);
-            github.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: msg
-            })
+            if (process.env.FAILURE_FLAG == 1 ) {
+              msg = `Failed Great Expectations checkpoint(s) \`${process.env.FAILED_CHECKPOINTS}\` detected for: ${process.env.SHA}.  Corresponding Data Docs have been generated and can be viewed [here](${process.env.URL}).`;
+              console.log(`Message to be emitted: ${msg}`);
+              github.issues.createComment({
+                 issue_number: context.issue.number,
+                 owner: context.repo.owner,
+                 repo: context.repo.repo,
+                 body: msg 
+               });
+            }
       env:
         URL: "${{ steps.ge.outputs.netlify_docs_url }}"
         FAILED_CHECKPOINTS: ${{ steps.ge.outputs.failing_checkpoints }}
         SHA: ${{ github.sha }}
+        FAILURE_FLAG: ${{ steps.ge.outputs.checkpoint_failure_flag }}
 ```
 
 ## Example 2 (Advanced): Trigger Data Docs Generation With A PR Comment
@@ -152,6 +165,9 @@ jobs:
       with:
         ref: ${{ steps.chatops.outputs.SHA }}
 
+    - name: run data pipeline on dev server
+      run: # <Put your code here> run your data pipeline in development so you can test the results with Great Expectations
+
     # Run Great Expectation checkpoints and deploy Data Docs to Netlify
     - name: Run Great Expectation Checkpoints
       id: ge
@@ -161,7 +177,8 @@ jobs:
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
-    # Comment on PR with link to deployed Data Docs on Netlify
+    # Comment on PR with link to deployed Data Docs on Netlify. In this example, we comment
+    #   on the PR with a message for both failed and successful checks.
     - name: Comment on PR
       if: ${{ always() }}
       uses: actions/github-script@v2
