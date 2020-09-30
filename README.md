@@ -97,6 +97,7 @@ jobs:
       # In this example, we have configured a Checkpoint called "locations.rds.chk".
     - name: Run Great Expectation Checkpoints
       id: ge
+      # Use @v0.x instead of @main to pin to a specific version, e.g. @v0.2
       uses: great-expectations/great_expectations_action@main
       with:
         CHECKPOINTS: "locations.rds.chk" # This can be a comma-separated list of Checkpoints
@@ -182,7 +183,8 @@ jobs:
     # Run Great Expectation Checkpoints and deploy Data Docs to Netlify
     - name: Run Great Expectation Checkpoints
       id: ge
-      uses: great-expectations/great_expectations_action@main
+      # Use @v0.x instead of @main to pin to a specific version, e.g. @v0.2
+      uses: great-expectations/great_expectations_action@main 
       with:
         CHECKPOINTS: ${{ matrix.checkpoints }}
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
