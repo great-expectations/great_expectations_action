@@ -275,3 +275,6 @@ To see a Checkpoint fail, run `great_expectations checkpoint run failing_checkpo
 
 - As mentioned above, this Action does not trigger your data pipeline to run, it only validates the data you point it at. You will need to configure the data pipeline run separately in your workflow, if desired.
 - If a **cloud-based** `ValidationStore` is in use we may need to disable it so that the built Data Docs focus only on what is being validated in the Action without other side effects.
+
+
+Please feel free to jump into the Great Expectations Slack to ask us questions about the GitHub Action [http://greatexpectations.io/slack](http://greatexpectations.io/slack)
