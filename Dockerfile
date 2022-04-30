@@ -1,6 +1,8 @@
 FROM greatexpectations/great_expectations:python-3.7-buster-ge-0.12.0
 
-RUN apt-get update && apt-get install curl nodejs -y
+RUN apt-get update && apt-get install curl -y
+RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
+RUN apt-get install -y nodejs
 RUN curl -L https://npmjs.org/install.sh | bash
 RUN npm install -g netlify-cli
 ENV NODE_PATH="/usr/lib/node_modules"
