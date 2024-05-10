@@ -53,7 +53,7 @@ jobs:
     # Run Great Expectation checkpoints and deploy Data Docs to Netlify
     - name: Run Great Expectation Checkpoints
       id: ge
-      uses: superconductive/great_expectations_action@main
+      uses: great-expectations/great_expectations_action@main
       with:
         CHECKPOINTS: ${{ matrix.checkpoints }}
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
